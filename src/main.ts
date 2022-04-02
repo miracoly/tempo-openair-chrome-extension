@@ -1,1 +1,3 @@
-alert("hi")
+import test from './tempo/tempo';
+
+test();
