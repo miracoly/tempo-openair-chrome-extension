@@ -1,8 +1,8 @@
 import dayjs, { Dayjs } from 'dayjs';
 import { WorkLog, WorkLogResponse } from './types';
+import { TOKEN } from '../secrets';
 
 const BASE_URL = 'https://api.tempo.io/core/3';
-const TOKEN = ''; // TODO do not commit
 
 export async function fetchWorkLogs(issueKey: number, from: Dayjs, to: Dayjs): Promise<WorkLogResponse> {
   const params: Record<string, string> = {

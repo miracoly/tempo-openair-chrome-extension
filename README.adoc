@@ -1,9 +1,18 @@
 = Tempo to OpenAir Chrome Extension
 :toc:
 :toc-title: Overview
+:source-highlighter: highlight.js
+:highlightjs-languages: typescript
 
 == Install
 TODO
+
+* create `secrets.ts` in `src` and add your token:
+``` ts
+const TOKEN = '<YOUR-SECRET-TOKEN-HERE>';
+
+export { TOKEN };
+```
 
 == Usage
 TODO
