@@ -1,0 +1,530 @@
+{
+  "self": "https://api.tempo.io/core/3/worklogs?issue=TIME-254&from=2022-03-21&to=2022-03-27&offset=0&limit=50",
+  "metadata": {
+    "count": 20,
+    "offset": 0,
+    "limit": 50
+  },
+  "results": [
+    {
+      "self": "https://api.tempo.io/core/3/worklogs/70541",
+      "tempoWorklogId": 70541,
+      "jiraWorklogId": 101369,
+      "issue": {
+        "self": "https://klosebrothers.atlassian.net/rest/api/2/issue/TIME-254",
+        "key": "TIME-254",
+        "id": 37280
+      },
+      "timeSpentSeconds": 900,
+      "billableSeconds": 900,
+      "startDate": "2022-03-22",
+      "startTime": "09:15:00",
+      "description": "Daily",
+      "createdAt": "2022-03-23T08:31:30Z",
+      "updatedAt": "2022-03-23T08:31:30Z",
+      "author": {
+        "self": "https://klosebrothers.atlassian.net/rest/api/2/user?accountId=123456789",
+        "accountId": "123456789",
+        "displayName": "miracoly"
+      },
+      "attributes": {
+        "self": "https://api.tempo.io/core/3/worklogs/70541/work-attribute-values",
+        "values": []
+      }
+    },
+    {
+      "self": "https://api.tempo.io/core/3/worklogs/70426",
+      "tempoWorklogId": 70426,
+      "jiraWorklogId": 101254,
+      "issue": {
+        "self": "https://klosebrothers.atlassian.net/rest/api/2/issue/TIME-254",
+        "key": "TIME-254",
+        "id": 37280
+      },
+      "timeSpentSeconds": 1800,
+      "billableSeconds": 1800,
+      "startDate": "2022-03-22",
+      "startTime": "09:30:00",
+      "description": "Live Deployments Discussion",
+      "createdAt": "2022-03-22T08:34:45Z",
+      "updatedAt": "2022-03-22T08:34:45Z",
+      "author": {
+        "self": "https://klosebrothers.atlassian.net/rest/api/2/user?accountId=123456789",
+        "accountId": "123456789",
+        "displayName": "miracoly"
+      },
+      "attributes": {
+        "self": "https://api.tempo.io/core/3/worklogs/70426/work-attribute-values",
+        "values": []
+      }
+    },
+    {
+      "self": "https://api.tempo.io/core/3/worklogs/70485",
+      "tempoWorklogId": 70485,
+      "jiraWorklogId": 101313,
+      "issue": {
+        "self": "https://klosebrothers.atlassian.net/rest/api/2/issue/TIME-254",
+        "key": "TIME-254",
+        "id": 37280
+      },
+      "timeSpentSeconds": 7200,
+      "billableSeconds": 7200,
+      "startDate": "2022-03-22",
+      "startTime": "10:00:00",
+      "description": "#116533: CC: Critical Vulnerability found in Tisax Nightly for netty:netty 2.0.48",
+      "createdAt": "2022-03-22T15:08:30Z",
+      "updatedAt": "2022-03-22T15:08:30Z",
+      "author": {
+        "self": "https://klosebrothers.atlassian.net/rest/api/2/user?accountId=123456789",
+        "accountId": "123456789",
+        "displayName": "miracoly"
+      },
+      "attributes": {
+        "self": "https://api.tempo.io/core/3/worklogs/70485/work-attribute-values",
+        "values": []
+      }
+    },
+    {
+      "self": "https://api.tempo.io/core/3/worklogs/70439",
+      "tempoWorklogId": 70439,
+      "jiraWorklogId": 101267,
+      "issue": {
+        "self": "https://klosebrothers.atlassian.net/rest/api/2/issue/TIME-254",
+        "key": "TIME-254",
+        "id": 37280
+      },
+      "timeSpentSeconds": 7200,
+      "billableSeconds": 7200,
+      "startDate": "2022-03-22",
+      "startTime": "14:00:00",
+      "description": "#116533: CC: Critical Vulnerability found in Tisax Nightly for netty:netty 2.0.48",
+      "createdAt": "2022-03-22T10:55:28Z",
+      "updatedAt": "2022-03-22T15:08:31Z",
+      "author": {
+        "self": "https://klosebrothers.atlassian.net/rest/api/2/user?accountId=123456789",
+        "accountId": "123456789",
+        "displayName": "miracoly"
+      },
+      "attributes": {
+        "self": "https://api.tempo.io/core/3/worklogs/70439/work-attribute-values",
+        "values": []
+      }
+    },
+    {
+      "self": "https://api.tempo.io/core/3/worklogs/70486",
+      "tempoWorklogId": 70486,
+      "jiraWorklogId": 101314,
+      "issue": {
+        "self": "https://klosebrothers.atlassian.net/rest/api/2/issue/TIME-254",
+        "key": "TIME-254",
+        "id": 37280
+      },
+      "timeSpentSeconds": 1800,
+      "billableSeconds": 1800,
+      "startDate": "2022-03-22",
+      "startTime": "16:00:00",
+      "description": "UX / UI / FE Sync",
+      "createdAt": "2022-03-22T15:08:50Z",
+      "updatedAt": "2022-03-22T15:08:50Z",
+      "author": {
+        "self": "https://klosebrothers.atlassian.net/rest/api/2/user?accountId=123456789",
+        "accountId": "123456789",
+        "displayName": "miracoly"
+      },
+      "attributes": {
+        "self": "https://api.tempo.io/core/3/worklogs/70486/work-attribute-values",
+        "values": []
+      }
+    },
+    {
+      "self": "https://api.tempo.io/core/3/worklogs/70706",
+      "tempoWorklogId": 70706,
+      "jiraWorklogId": 101534,
+      "issue": {
+        "self": "https://klosebrothers.atlassian.net/rest/api/2/issue/TIME-254",
+        "key": "TIME-254",
+        "id": 37280
+      },
+      "timeSpentSeconds": 1800,
+      "billableSeconds": 1800,
+      "startDate": "2022-03-23",
+      "startTime": "09:15:00",
+      "description": "Daily",
+      "createdAt": "2022-03-24T14:12:46Z",
+      "updatedAt": "2022-03-24T14:12:46Z",
+      "author": {
+        "self": "https://klosebrothers.atlassian.net/rest/api/2/user?accountId=123456789",
+        "accountId": "123456789",
+        "displayName": "miracoly"
+      },
+      "attributes": {
+        "self": "https://api.tempo.io/core/3/worklogs/70706/work-attribute-values",
+        "values": []
+      }
+    },
+    {
+      "self": "https://api.tempo.io/core/3/worklogs/70736",
+      "tempoWorklogId": 70736,
+      "jiraWorklogId": 101564,
+      "issue": {
+        "self": "https://klosebrothers.atlassian.net/rest/api/2/issue/TIME-254",
+        "key": "TIME-254",
+        "id": 37280
+      },
+      "timeSpentSeconds": 8100,
+      "billableSeconds": 8100,
+      "startDate": "2022-03-23",
+      "startTime": "09:45:00",
+      "description": "#115546: CC: Refactor Date usages to LocalDate or LocalDateTime",
+      "createdAt": "2022-03-24T16:18:44Z",
+      "updatedAt": "2022-03-24T16:18:44Z",
+      "author": {
+        "self": "https://klosebrothers.atlassian.net/rest/api/2/user?accountId=123456789",
+        "accountId": "123456789",
+        "displayName": "miracoly"
+      },
+      "attributes": {
+        "self": "https://api.tempo.io/core/3/worklogs/70736/work-attribute-values",
+        "values": []
+      }
+    },
+    {
+      "self": "https://api.tempo.io/core/3/worklogs/70543",
+      "tempoWorklogId": 70543,
+      "jiraWorklogId": 101371,
+      "issue": {
+        "self": "https://klosebrothers.atlassian.net/rest/api/2/issue/TIME-254",
+        "key": "TIME-254",
+        "id": 37280
+      },
+      "timeSpentSeconds": 5400,
+      "billableSeconds": 5400,
+      "startDate": "2022-03-23",
+      "startTime": "13:00:00",
+      "description": "#115546: CC: Refactor Date usages to LocalDate or LocalDateTime",
+      "createdAt": "2022-03-23T08:54:32Z",
+      "updatedAt": "2022-03-23T14:11:38Z",
+      "author": {
+        "self": "https://klosebrothers.atlassian.net/rest/api/2/user?accountId=123456789",
+        "accountId": "123456789",
+        "displayName": "miracoly"
+      },
+      "attributes": {
+        "self": "https://api.tempo.io/core/3/worklogs/70543/work-attribute-values",
+        "values": []
+      }
+    },
+    {
+      "self": "https://api.tempo.io/core/3/worklogs/70711",
+      "tempoWorklogId": 70711,
+      "jiraWorklogId": 101539,
+      "issue": {
+        "self": "https://klosebrothers.atlassian.net/rest/api/2/issue/TIME-254",
+        "key": "TIME-254",
+        "id": 37280
+      },
+      "timeSpentSeconds": 7200,
+      "billableSeconds": 7200,
+      "startDate": "2022-03-23",
+      "startTime": "15:00:00",
+      "description": "#114993: CC: Do Prelive Deployment according to documentation & improve documentation",
+      "createdAt": "2022-03-24T14:18:07Z",
+      "updatedAt": "2022-03-24T14:18:07Z",
+      "author": {
+        "self": "https://klosebrothers.atlassian.net/rest/api/2/user?accountId=123456789",
+        "accountId": "123456789",
+        "displayName": "miracoly"
+      },
+      "attributes": {
+        "self": "https://api.tempo.io/core/3/worklogs/70711/work-attribute-values",
+        "values": []
+      }
+    },
+    {
+      "self": "https://api.tempo.io/core/3/worklogs/70844",
+      "tempoWorklogId": 70844,
+      "jiraWorklogId": 101672,
+      "issue": {
+        "self": "https://klosebrothers.atlassian.net/rest/api/2/issue/TIME-254",
+        "key": "TIME-254",
+        "id": 37280
+      },
+      "timeSpentSeconds": 900,
+      "billableSeconds": 900,
+      "startDate": "2022-03-24",
+      "startTime": "09:15:00",
+      "description": "Daily",
+      "createdAt": "2022-03-25T09:23:59Z",
+      "updatedAt": "2022-03-25T09:23:59Z",
+      "author": {
+        "self": "https://klosebrothers.atlassian.net/rest/api/2/user?accountId=123456789",
+        "accountId": "123456789",
+        "displayName": "miracoly"
+      },
+      "attributes": {
+        "self": "https://api.tempo.io/core/3/worklogs/70844/work-attribute-values",
+        "values": []
+      }
+    },
+    {
+      "self": "https://api.tempo.io/core/3/worklogs/69762",
+      "tempoWorklogId": 69762,
+      "jiraWorklogId": 100590,
+      "issue": {
+        "self": "https://klosebrothers.atlassian.net/rest/api/2/issue/TIME-254",
+        "key": "TIME-254",
+        "id": 37280
+      },
+      "timeSpentSeconds": 1800,
+      "billableSeconds": 1800,
+      "startDate": "2022-03-24",
+      "startTime": "09:30:00",
+      "description": "#96207: CC: Persist and Show in FE sales data from arvato",
+      "createdAt": "2022-03-10T15:15:04Z",
+      "updatedAt": "2022-03-24T14:16:28Z",
+      "author": {
+        "self": "https://klosebrothers.atlassian.net/rest/api/2/user?accountId=123456789",
+        "accountId": "123456789",
+        "displayName": "miracoly"
+      },
+      "attributes": {
+        "self": "https://api.tempo.io/core/3/worklogs/69762/work-attribute-values",
+        "values": []
+      }
+    },
+    {
+      "self": "https://api.tempo.io/core/3/worklogs/70710",
+      "tempoWorklogId": 70710,
+      "jiraWorklogId": 101538,
+      "issue": {
+        "self": "https://klosebrothers.atlassian.net/rest/api/2/issue/TIME-254",
+        "key": "TIME-254",
+        "id": 37280
+      },
+      "timeSpentSeconds": 3600,
+      "billableSeconds": 3600,
+      "startDate": "2022-03-24",
+      "startTime": "13:00:00",
+      "description": "#114993: CC: Do Prelive Deployment according to documentation & improve documentation",
+      "createdAt": "2022-03-24T14:17:46Z",
+      "updatedAt": "2022-03-24T14:18:39Z",
+      "author": {
+        "self": "https://klosebrothers.atlassian.net/rest/api/2/user?accountId=123456789",
+        "accountId": "123456789",
+        "displayName": "miracoly"
+      },
+      "attributes": {
+        "self": "https://api.tempo.io/core/3/worklogs/70710/work-attribute-values",
+        "values": []
+      }
+    },
+    {
+      "self": "https://api.tempo.io/core/3/worklogs/70712",
+      "tempoWorklogId": 70712,
+      "jiraWorklogId": 101540,
+      "issue": {
+        "self": "https://klosebrothers.atlassian.net/rest/api/2/issue/TIME-254",
+        "key": "TIME-254",
+        "id": 37280
+      },
+      "timeSpentSeconds": 6300,
+      "billableSeconds": 6300,
+      "startDate": "2022-03-24",
+      "startTime": "14:00:00",
+      "description": "CC1 Sprint Review",
+      "createdAt": "2022-03-24T14:18:26Z",
+      "updatedAt": "2022-03-24T16:18:46Z",
+      "author": {
+        "self": "https://klosebrothers.atlassian.net/rest/api/2/user?accountId=123456789",
+        "accountId": "123456789",
+        "displayName": "miracoly"
+      },
+      "attributes": {
+        "self": "https://api.tempo.io/core/3/worklogs/70712/work-attribute-values",
+        "values": []
+      }
+    },
+    {
+      "self": "https://api.tempo.io/core/3/worklogs/70849",
+      "tempoWorklogId": 70849,
+      "jiraWorklogId": 101677,
+      "issue": {
+        "self": "https://klosebrothers.atlassian.net/rest/api/2/issue/TIME-254",
+        "key": "TIME-254",
+        "id": 37280
+      },
+      "timeSpentSeconds": 5400,
+      "billableSeconds": 5400,
+      "startDate": "2022-03-24",
+      "startTime": "15:45:00",
+      "description": "#115546: CC: Refactor Date usages to LocalDate or LocalDateTime",
+      "createdAt": "2022-03-25T09:25:55Z",
+      "updatedAt": "2022-03-25T09:25:55Z",
+      "author": {
+        "self": "https://klosebrothers.atlassian.net/rest/api/2/user?accountId=123456789",
+        "accountId": "123456789",
+        "displayName": "miracoly"
+      },
+      "attributes": {
+        "self": "https://api.tempo.io/core/3/worklogs/70849/work-attribute-values",
+        "values": []
+      }
+    },
+    {
+      "self": "https://api.tempo.io/core/3/worklogs/70783",
+      "tempoWorklogId": 70783,
+      "jiraWorklogId": 101611,
+      "issue": {
+        "self": "https://klosebrothers.atlassian.net/rest/api/2/issue/TIME-254",
+        "key": "TIME-254",
+        "id": 37280
+      },
+      "timeSpentSeconds": 2700,
+      "billableSeconds": 2700,
+      "startDate": "2022-03-25",
+      "startTime": "08:00:00",
+      "description": "ABCD Dev Sync",
+      "createdAt": "2022-03-25T07:19:43Z",
+      "updatedAt": "2022-03-25T08:10:31Z",
+      "author": {
+        "self": "https://klosebrothers.atlassian.net/rest/api/2/user?accountId=123456789",
+        "accountId": "123456789",
+        "displayName": "miracoly"
+      },
+      "attributes": {
+        "self": "https://api.tempo.io/core/3/worklogs/70783/work-attribute-values",
+        "values": []
+      }
+    },
+    {
+      "self": "https://api.tempo.io/core/3/worklogs/70425",
+      "tempoWorklogId": 70425,
+      "jiraWorklogId": 101253,
+      "issue": {
+        "self": "https://klosebrothers.atlassian.net/rest/api/2/issue/TIME-254",
+        "key": "TIME-254",
+        "id": 37280
+      },
+      "timeSpentSeconds": 900,
+      "billableSeconds": 900,
+      "startDate": "2022-03-25",
+      "startTime": "09:15:00",
+      "description": "Daily",
+      "createdAt": "2022-03-22T08:30:20Z",
+      "updatedAt": "2022-03-25T09:24:01Z",
+      "author": {
+        "self": "https://klosebrothers.atlassian.net/rest/api/2/user?accountId=123456789",
+        "accountId": "123456789",
+        "displayName": "miracoly"
+      },
+      "attributes": {
+        "self": "https://api.tempo.io/core/3/worklogs/70425/work-attribute-values",
+        "values": []
+      }
+    },
+    {
+      "self": "https://api.tempo.io/core/3/worklogs/70846",
+      "tempoWorklogId": 70846,
+      "jiraWorklogId": 101674,
+      "issue": {
+        "self": "https://klosebrothers.atlassian.net/rest/api/2/issue/TIME-254",
+        "key": "TIME-254",
+        "id": 37280
+      },
+      "timeSpentSeconds": 3600,
+      "billableSeconds": 3600,
+      "startDate": "2022-03-25",
+      "startTime": "09:30:00",
+      "description": "CC1 Retrospektive",
+      "createdAt": "2022-03-25T09:24:22Z",
+      "updatedAt": "2022-03-25T09:24:22Z",
+      "author": {
+        "self": "https://klosebrothers.atlassian.net/rest/api/2/user?accountId=123456789",
+        "accountId": "123456789",
+        "displayName": "miracoly"
+      },
+      "attributes": {
+        "self": "https://api.tempo.io/core/3/worklogs/70846/work-attribute-values",
+        "values": []
+      }
+    },
+    {
+      "self": "https://api.tempo.io/core/3/worklogs/70847",
+      "tempoWorklogId": 70847,
+      "jiraWorklogId": 101675,
+      "issue": {
+        "self": "https://klosebrothers.atlassian.net/rest/api/2/issue/TIME-254",
+        "key": "TIME-254",
+        "id": 37280
+      },
+      "timeSpentSeconds": 3600,
+      "billableSeconds": 3600,
+      "startDate": "2022-03-25",
+      "startTime": "10:30:00",
+      "description": "CC1 Refinement & Planning",
+      "createdAt": "2022-03-25T09:25:30Z",
+      "updatedAt": "2022-03-25T09:25:30Z",
+      "author": {
+        "self": "https://klosebrothers.atlassian.net/rest/api/2/user?accountId=123456789",
+        "accountId": "123456789",
+        "displayName": "miracoly"
+      },
+      "attributes": {
+        "self": "https://api.tempo.io/core/3/worklogs/70847/work-attribute-values",
+        "values": []
+      }
+    },
+    {
+      "self": "https://api.tempo.io/core/3/worklogs/70848",
+      "tempoWorklogId": 70848,
+      "jiraWorklogId": 101676,
+      "issue": {
+        "self": "https://klosebrothers.atlassian.net/rest/api/2/issue/TIME-254",
+        "key": "TIME-254",
+        "id": 37280
+      },
+      "timeSpentSeconds": 3600,
+      "billableSeconds": 3600,
+      "startDate": "2022-03-25",
+      "startTime": "12:30:00",
+      "description": "CC1 Refinement & Planning",
+      "createdAt": "2022-03-25T09:25:44Z",
+      "updatedAt": "2022-03-25T09:25:48Z",
+      "author": {
+        "self": "https://klosebrothers.atlassian.net/rest/api/2/user?accountId=123456789",
+        "accountId": "123456789",
+        "displayName": "miracoly"
+      },
+      "attributes": {
+        "self": "https://api.tempo.io/core/3/worklogs/70848/work-attribute-values",
+        "values": []
+      }
+    },
+    {
+      "self": "https://api.tempo.io/core/3/worklogs/70569",
+      "tempoWorklogId": 70569,
+      "jiraWorklogId": 101397,
+      "issue": {
+        "self": "https://klosebrothers.atlassian.net/rest/api/2/issue/TIME-254",
+        "key": "TIME-254",
+        "id": 37280
+      },
+      "timeSpentSeconds": 10800,
+      "billableSeconds": 10800,
+      "startDate": "2022-03-25",
+      "startTime": "13:30:00",
+      "description": "#115546: CC: Refactor Date usages to LocalDate or LocalDateTime",
+      "createdAt": "2022-03-23T14:11:35Z",
+      "updatedAt": "2022-03-25T15:54:49Z",
+      "author": {
+        "self": "https://klosebrothers.atlassian.net/rest/api/2/user?accountId=123456789",
+        "accountId": "123456789",
+        "displayName": "miracoly"
+      },
+      "attributes": {
+        "self": "https://api.tempo.io/core/3/worklogs/70569/work-attribute-values",
+        "values": []
+      }
+    }
+  ]
+}

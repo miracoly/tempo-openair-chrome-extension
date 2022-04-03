@@ -1,7 +1,10 @@
-import { fetchWorkLogs } from './tempo';
-import dayjs from 'dayjs';
+import { parseWorkLogsFrom } from './tempo';
+import response from '../mocks/worklog-response.json';
 
-it('should test getWorkLogs', function () {
-  const workLogs = fetchWorkLogs(254, dayjs("2022-03-21"), dayjs("2022-03-27"));
-  expect(workLogs).toBe([]);
+describe('parseWorkLogsFrom', () => {
+  it('should parse response into WorkLogs[]', async () => {
+    const workLogs = parseWorkLogsFrom(response);
+
+    expect(workLogs).toBe(response);
+  });
 });
