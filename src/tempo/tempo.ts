@@ -4,7 +4,11 @@ import { TOKEN } from '../secrets';
 
 const BASE_URL = 'https://api.tempo.io/core/3';
 
-export async function fetchWorkLogs(issueKey: number, from: Dayjs, to: Dayjs): Promise<WorkLogResponse> {
+export async function fetchWorkLogs(
+  issueKey: number,
+  from: Dayjs,
+  to: Dayjs
+): Promise<WorkLogResponse> {
   const params: Record<string, string> = {
     issue: `TIME-${issueKey}`,
     from: from.format('YYYY-MM-DD'),
@@ -24,8 +28,8 @@ export function parseWorkLogsFrom(response: WorkLogResponse): WorkLog[] {
   return response.results.map(wl => ({
     issueKey: wl.issue.key,
     description: wl.description,
-    startDate: dayjs(wl.startDate),
-    timeSpentSeconds: wl.timeSpentSeconds
+    startDate: dayjs(wl.startDate + 'T' + wl.startTime, 'YYYY-MM-DDTHH:mm:ss'),
+    timeSpentSeconds: wl.timeSpentSeconds,
   }));
 }
 
