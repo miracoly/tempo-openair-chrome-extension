@@ -1,6 +1,7 @@
 import dayjs, { Dayjs } from 'dayjs';
 import { WorkLog, WorkLogResponse } from './types';
 import { TOKEN } from '../secrets';
+import { addParamsTo } from '../utils/utils';
 
 const BASE_URL = 'https://api.tempo.io/core/3';
 
@@ -33,32 +34,6 @@ export function parseWorkLogsFrom(response: WorkLogResponse): WorkLog[] {
   }));
 }
 
-export function accumulate(workLogs: WorkLog[]) {
-  return (...by: (keyof WorkLog)[]): WorkLog[] => {
-    return workLogs.reduce((accumulated, curr, _, arr) => {
-      const issueKey = curr.issueKey;
-      const description = curr.description;
-
-      const currentAlreadyAccumulated =
-        by.reduce(
-          (filtered, key) => filtered.filter(value => value[key] === curr[key]),
-          accumulated
-        ).length >= 1;
-
-      if (currentAlreadyAccumulated) {
-        return accumulated;
-      }
-
-      const toAccumulate = arr
-        .filter(value => value.issueKey === issueKey)
-        .filter(value => value.description === description);
-      const combined: WorkLog = toAccumulate.reduce(combine);
-
-      return [...accumulated, combined];
-    }, [] as WorkLog[]);
-  };
-}
-
 export function combine(wl1: WorkLog, wl2: WorkLog): WorkLog {
   return {
     issueKey: wl1.issueKey,
@@ -68,9 +43,3 @@ export function combine(wl1: WorkLog, wl2: WorkLog): WorkLog {
   };
 }
 
-export function addParamsTo(url: string, params: Record<string, string>): string {
-  const newUrl = new URL(url);
-  newUrl.search = new URLSearchParams(params).toString();
-
-  return newUrl.toString();
-}
