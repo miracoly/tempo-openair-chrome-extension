@@ -1,27 +1,16 @@
-import { Dayjs } from 'dayjs';
-import { addParamsTo } from '../utils/utils';
+import dayjs, { Dayjs } from 'dayjs';
+import { WorkLog, WorkLogResponse } from './types';
 
 const BASE_URL = 'https://api.tempo.io/core/3';
 const TOKEN = ''; // TODO do not commit
 
-interface WorkLog {
-  issueKey: string;
-  description: string;
-  startDate: Dayjs;
-  timeSpendSeconds: number;
-}
-
-export function parseWorkLogsFrom(response: any): WorkLog[] {
-  return [];
-}
-
-export async function fetchWorkLogs(issueKey: number, from: Dayjs, to: Dayjs): Promise<any> {
+export async function fetchWorkLogs(issueKey: number, from: Dayjs, to: Dayjs): Promise<WorkLogResponse> {
   const params: Record<string, string> = {
     issue: `TIME-${issueKey}`,
     from: from.format('YYYY-MM-DD'),
     to: to.format('YYYY-MM-DD'),
   };
-  const url = addParamsTo(BASE_URL + '/worklogs', params);
+  const url = addParamsTo(BASE_URL + '/workLogs', params);
 
   const response = await fetch(url, {
     method: 'GET',
@@ -29,4 +18,20 @@ export async function fetchWorkLogs(issueKey: number, from: Dayjs, to: Dayjs): P
   });
 
   return response.json();
+}
+
+export function parseWorkLogsFrom(response: WorkLogResponse): WorkLog[] {
+  return response.results.map(wl => ({
+    issueKey: wl.issue.key,
+    description: wl.description,
+    startDate: dayjs(wl.startDate),
+    timeSpentSeconds: wl.timeSpentSeconds
+  }));
+}
+
+export function addParamsTo(url: string, params: Record<string, string>): string {
+  const newUrl = new URL(url);
+  newUrl.search = new URLSearchParams(params).toString();
+
+  return newUrl.toString();
 }
