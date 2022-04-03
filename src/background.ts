@@ -1,3 +1,6 @@
+import { fetchWorkLogs } from './tempo/tempo';
+import dayjs from 'dayjs';
+
 type Message = {
   event: string;
 };
@@ -5,7 +8,7 @@ type Message = {
 chrome.runtime.onMessage.addListener(listenOnMessage);
 
 function listenOnMessage(message: Message) {
-  console.log('inside background.ts, event: ', message.event);
+  fetchWorkLogs(254, dayjs("2022-03-21"), dayjs("2022-03-27"))
   return true; // Inform Chrome that we will make a delayed sendResponse
 }
 

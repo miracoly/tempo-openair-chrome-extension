@@ -10,3 +10,7 @@ TODO
 
 == Contribute
 TODO
+
+*Axios*
+
+Axios can not be used in Google Chrome Extension.
