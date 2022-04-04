@@ -1,9 +1,10 @@
-import { accumulate, addParamsTo } from './utils';
+import { accumulate, addParamsTo, groupBy } from './utils';
 import workLogsOneDay from '../mocks/workLogsOneDay';
 import { combine } from '../tempo/tempo';
 import workLogsOneDayAccumulated from '../mocks/workLogsOneDayAccumulated';
 import workLogs from '../mocks/workLogs';
 import workLogsAccumulated from '../mocks/workLogsAccumulated';
+import workLogsGroupedByDescription from '../mocks/workLogsGroupedByDescription';
 
 describe('accumulate', () => {
   it('should accumulate workLogs of one day by description and issueKey', () => {
@@ -16,6 +17,14 @@ describe('accumulate', () => {
     const accumulated = accumulate(workLogs, combine)('description', 'issueKey');
 
     expect(accumulated).toStrictEqual(workLogsAccumulated);
+  });
+});
+
+describe('groupby', () => {
+  it('should group workLogs by description', () => {
+    const grouped = groupBy(workLogs, 'description');
+
+    expect(grouped).toStrictEqual(workLogsGroupedByDescription);
   });
 });
 

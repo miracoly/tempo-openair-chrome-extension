@@ -1,4 +1,4 @@
-export function accumulate<T>(objects: T[], combineFn: (v1: T, v2: T) => T) {
+export function accumulate<T>(objects: T[], combineFn: (obj1: T, obj2: T) => T) {
   return (...by: (keyof T)[]): T[] =>
     objects.reduce((accumulated, curr, _, arr) => {
       const currentAlreadyAccumulated =
@@ -13,6 +13,16 @@ export function accumulate<T>(objects: T[], combineFn: (v1: T, v2: T) => T) {
         .reduce(combineFn);
       return [...accumulated, combined];
     }, [] as T[]);
+}
+
+export function groupBy<T>(objects: T[], key: keyof T): Record<any, T[]> {
+  return objects.reduce(
+    (accumulated, curr, _, arr) => ({
+      ...accumulated,
+      ...{ [curr[key] as any]: arr.filter(value => value[key] === curr[key]) },
+    }),
+    {} as Record<any, T[]>
+  );
 }
 
 export function addParamsTo(url: string, params: Record<string, string>): string {
