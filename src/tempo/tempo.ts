@@ -5,7 +5,7 @@ import { accumulate, addParamsTo } from '../utils/utils';
 
 const BASE_URL = 'https://api.tempo.io/core/3';
 
-export async function getWorkLogReportOf(issueKey: number, days: Dayjs[]): Promise<DayReport[]> {
+export async function getDayReportsFromTempo(issueKey: number, days: Dayjs[]): Promise<DayReport[]> {
   const response = await fetchWorkLogs(issueKey, days[0], days[days.length - 1]);
   const workLogs = parseWorkLogsFrom(response);
 

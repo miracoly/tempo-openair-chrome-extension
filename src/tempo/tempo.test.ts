@@ -1,6 +1,6 @@
-import { combine, generateReport, getWorkLogReportOf, parseWorkLogsFrom} from './tempo';
-import response from '../mocks/worklog-response.json';
-import workLogResponse from '../mocks/worklog-response.json';
+import { combine, generateReport, getDayReportsFromTempo, parseWorkLogsFrom} from './tempo';
+import response from '../mocks/worklogResponse.json';
+import workLogResponse from '../mocks/worklogResponse.json';
 import workLogs from '../mocks/workLogs';
 import dayjs from 'dayjs';
 import { newDayRange } from '../utils/utils';
@@ -19,7 +19,7 @@ describe('getWorkLogReportOf', ()=> {
     fetchMock.mockResponseOnce(JSON.stringify(workLogResponse));
     const week = newDayRange(dayjs('2022-03-21'), dayjs('2022-03-27'));
 
-    const reports = await getWorkLogReportOf(256, week);
+    const reports = await getDayReportsFromTempo(256, week);
 
     expect(reports).toStrictEqual(fullWorkLogDayReport);
   });
