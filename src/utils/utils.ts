@@ -1,3 +1,5 @@
+import { Dayjs } from 'dayjs';
+
 export function accumulate<T>(objects: T[], combineFn: (obj1: T, obj2: T) => T) {
   return (...by: (keyof T)[]): T[] =>
     objects.reduce((accumulated, curr, _, arr) => {
@@ -23,6 +25,10 @@ export function groupBy<T>(objects: T[], key: keyof T): Record<any, T[]> {
     }),
     {} as Record<any, T[]>
   );
+}
+
+export function newDayRange(from: Dayjs, to: Dayjs): Dayjs[] {
+  return [...Array(to.diff(from, 'day') + 1).keys()].map(num => from.add(num, 'day'));
 }
 
 export function addParamsTo(url: string, params: Record<string, string>): string {
