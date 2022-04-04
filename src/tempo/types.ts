@@ -7,13 +7,22 @@ export interface WorkLog {
   timeSpentSeconds: number;
 }
 
+export interface Report {
+  totalTimeSpendSeconds: number;
+  descriptions: string[];
+}
+
+export interface DayReport extends Report {
+  day: Dayjs;
+}
+
 export interface WorkLogResponse {
   self: string;
   metadata: {
     count: number;
     offset: number;
     limit: number;
-  },
+  };
   results: {
     self: string;
     tempoWorklogId: number;
@@ -37,7 +46,7 @@ export interface WorkLogResponse {
     };
     attributes: {
       self: string;
-      values: any[]
-    }
+      values: any[];
+    };
   }[];
 }

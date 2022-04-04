@@ -1,5 +1,5 @@
 import dayjs, { Dayjs } from 'dayjs';
-import { WorkLog, WorkLogResponse } from './types';
+import { DayReport, Report, WorkLog, WorkLogResponse } from './types';
 import { TOKEN } from '../secrets';
 import { accumulate, addParamsTo } from '../utils/utils';
 
@@ -11,7 +11,7 @@ export async function getWorkLogReportOf(issueKey: number, days: Dayjs[]): Promi
 
   return days
     .map(day => workLogs.filter(wl => wl.startDate.isSame(day, 'date')))
-    .map(wls => accumulate(wls, combine)('issueKey', 'description'))
+    .map(accumulate(combine)('issueKey', 'description'))
     .map(generateReport)
     .map((report, i) => ({ ...report, day: days[i] }))
     .filter(dayReport => dayReport.totalTimeSpendSeconds != 0);
@@ -45,12 +45,6 @@ export function parseWorkLogsFrom(response: WorkLogResponse): WorkLog[] {
     timeSpentSeconds: wl.timeSpentSeconds,
   }));
 }
-
-export type Report = {
-  totalTimeSpendSeconds: number;
-  descriptions: string[];
-};
-export type DayReport = Report & { day: Dayjs };
 
 export function generateReport(workLogs: WorkLog[]): Report {
   const totalTimeSpendSeconds = workLogs

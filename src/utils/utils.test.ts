@@ -1,21 +1,19 @@
-import { accumulate, addParamsTo, groupBy, newDayRange } from './utils';
+import { accumulate, addParamsTo, newDayRange } from './utils';
 import workLogsOneDay from '../mocks/workLogsOneDay';
 import { combine } from '../tempo/tempo';
 import workLogsOneDayAccumulated from '../mocks/workLogsOneDayAccumulated';
 import workLogs from '../mocks/workLogs';
 import workLogsAccumulated from '../mocks/workLogsAccumulated';
-import workLogsGroupedByDescription from '../mocks/workLogsGroupedByDescription';
 import dayjs from 'dayjs';
 
 describe('accumulate', () => {
   it('should accumulate workLogs of one day by description and issueKey', () => {
-    const accumulated = accumulate(workLogsOneDay, combine)('description', 'issueKey');
-
+    const accumulated = accumulate(combine)('description', 'issueKey')(workLogsOneDay);
     expect(accumulated).toStrictEqual(workLogsOneDayAccumulated);
   });
 
   it('should accumulate workLogs of different days bey description and issueKey', () => {
-    const accumulated = accumulate(workLogs, combine)('description', 'issueKey');
+    const accumulated = accumulate(combine)('description', 'issueKey')(workLogs);
 
     expect(accumulated).toStrictEqual(workLogsAccumulated);
   });
@@ -54,14 +52,6 @@ describe('newDayRange', () => {
     expect(range).toStrictEqual(expected);
   });
 })
-
-describe('groupby', () => {
-  it('should group workLogs by description', () => {
-    const grouped = groupBy(workLogs, 'description');
-
-    expect(grouped).toStrictEqual(workLogsGroupedByDescription);
-  });
-});
 
 describe('addParamsTo', () => {
   it('should return url with params', () => {

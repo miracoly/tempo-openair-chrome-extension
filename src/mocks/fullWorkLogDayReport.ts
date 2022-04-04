@@ -1,5 +1,5 @@
-import { DayReport } from '../tempo/tempo';
 import dayjs from 'dayjs';
+import { DayReport } from '../tempo/types';
 
 const fullWorkLogDayReport: DayReport[] = [
   {

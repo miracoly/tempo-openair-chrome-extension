@@ -1,4 +1,4 @@
-import { combine, generateReport, getWorkLogReportOf, parseWorkLogsFrom, Report } from './tempo';
+import { combine, generateReport, getWorkLogReportOf, parseWorkLogsFrom} from './tempo';
 import response from '../mocks/worklog-response.json';
 import workLogResponse from '../mocks/worklog-response.json';
 import workLogs from '../mocks/workLogs';
@@ -6,6 +6,7 @@ import dayjs from 'dayjs';
 import { newDayRange } from '../utils/utils';
 import fullWorkLogDayReport from '../mocks/fullWorkLogDayReport';
 import fetchMock from 'jest-fetch-mock';
+import { Report } from './types';
 
 fetchMock.enableMocks();
 
