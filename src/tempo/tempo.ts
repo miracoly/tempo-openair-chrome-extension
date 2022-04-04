@@ -1,9 +1,21 @@
 import dayjs, { Dayjs } from 'dayjs';
 import { WorkLog, WorkLogResponse } from './types';
 import { TOKEN } from '../secrets';
-import { addParamsTo } from '../utils/utils';
+import { accumulate, addParamsTo } from '../utils/utils';
 
 const BASE_URL = 'https://api.tempo.io/core/3';
+
+export async function getWorkLogReportOf(issueKey: number, days: Dayjs[]): Promise<DayReport[]> {
+  const response = await fetchWorkLogs(issueKey, days[0], days[days.length - 1]);
+  const workLogs = parseWorkLogsFrom(response);
+
+  return days
+    .map(day => workLogs.filter(wl => wl.startDate.isSame(day, 'date')))
+    .map(wls => accumulate(wls, combine)('issueKey', 'description'))
+    .map(generateReport)
+    .map((report, i) => ({ ...report, day: days[i] }))
+    .filter(dayReport => dayReport.totalTimeSpendSeconds != 0);
+}
 
 export async function fetchWorkLogs(
   issueKey: number,
@@ -15,7 +27,7 @@ export async function fetchWorkLogs(
     from: from.format('YYYY-MM-DD'),
     to: to.format('YYYY-MM-DD'),
   };
-  const url = addParamsTo(BASE_URL + '/workLogs', params);
+  const url = addParamsTo(BASE_URL + '/worklogs', params);
 
   const response = await fetch(url, {
     method: 'GET',
@@ -38,11 +50,12 @@ export type Report = {
   totalTimeSpendSeconds: number;
   descriptions: string[];
 };
+export type DayReport = Report & { day: Dayjs };
 
 export function generateReport(workLogs: WorkLog[]): Report {
   const totalTimeSpendSeconds = workLogs
     .map(wl => wl.timeSpentSeconds)
-    .reduce((prev, curr) => prev + curr);
+    .reduce((prev, curr) => prev + curr, 0);
   const descriptions = workLogs.map(wl => wl.description);
   return { totalTimeSpendSeconds, descriptions };
 }

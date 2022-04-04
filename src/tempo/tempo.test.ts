@@ -1,7 +1,35 @@
-import { combine, generateReport, parseWorkLogsFrom, Report } from './tempo';
+import { combine, generateReport, getWorkLogReportOf, parseWorkLogsFrom, Report } from './tempo';
 import response from '../mocks/worklog-response.json';
+import workLogResponse from '../mocks/worklog-response.json';
 import workLogs from '../mocks/workLogs';
 import dayjs from 'dayjs';
+import { newDayRange } from '../utils/utils';
+import fullWorkLogDayReport from '../mocks/fullWorkLogDayReport';
+import fetchMock from 'jest-fetch-mock';
+
+fetchMock.enableMocks();
+
+beforeEach(() => {
+  fetchMock.resetMocks();
+})
+
+describe('getWorkLogReportOf', ()=> {
+  it('should generate report of full week', async () => {
+    fetchMock.mockResponseOnce(JSON.stringify(workLogResponse));
+    const week = newDayRange(dayjs('2022-03-21'), dayjs('2022-03-27'));
+
+    const reports = await getWorkLogReportOf(256, week);
+
+    expect(reports).toStrictEqual(fullWorkLogDayReport);
+  });
+})
+
+// TODO
+describe('fetchWorkLogs', () => {
+  it('should fetch with correct parameters', () => {
+
+  })
+})
 
 describe('parseWorkLogsFrom', () => {
   it('should parse response into WorkLogs[]', async () => {
