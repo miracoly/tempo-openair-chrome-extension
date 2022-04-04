@@ -1,11 +1,5 @@
 import { Dayjs } from 'dayjs';
 
-export interface WorkDay {
-  totalHours: number;
-  date: Dayjs;
-  accumulatedWorkLogs: WorkLog[]
-}
-
 export interface WorkLog {
   issueKey: string;
   description: string;

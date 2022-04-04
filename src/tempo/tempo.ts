@@ -34,6 +34,19 @@ export function parseWorkLogsFrom(response: WorkLogResponse): WorkLog[] {
   }));
 }
 
+export type Report = {
+  totalTimeSpendSeconds: number;
+  descriptions: string[];
+};
+
+export function generateReport(workLogs: WorkLog[]): Report {
+  const totalTimeSpendSeconds = workLogs
+    .map(wl => wl.timeSpentSeconds)
+    .reduce((prev, curr) => prev + curr);
+  const descriptions = workLogs.map(wl => wl.description);
+  return { totalTimeSpendSeconds, descriptions };
+}
+
 export function combine(wl1: WorkLog, wl2: WorkLog): WorkLog {
   return {
     issueKey: wl1.issueKey,
@@ -42,4 +55,3 @@ export function combine(wl1: WorkLog, wl2: WorkLog): WorkLog {
     timeSpentSeconds: wl1.timeSpentSeconds + wl2.timeSpentSeconds,
   };
 }
-
