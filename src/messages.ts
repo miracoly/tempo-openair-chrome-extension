@@ -1,9 +1,12 @@
-export enum Request {
+export enum MessageType {
+  SUCCESS,
   BUTTON_CLICK,
-  REQUEST_DATES,
+  REQUEST_DATE_RANGE,
+  NOT_ON_OPENAIR_TIMESHEET_SITE,
+  DATE_RANGE_NOT_FOUND,
 }
 
-export enum Response {
-  SUCCESS,
-  NOT_ON_OPENAIR_TIMESHEET_SITE,
+export interface Message {
+  type: MessageType;
+  payload?: any;
 }

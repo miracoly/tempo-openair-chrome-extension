@@ -1,12 +1,15 @@
 import Tab = chrome.tabs.Tab;
 import dayjs, { Dayjs } from 'dayjs';
 
+const customParseFormat = require('dayjs/plugin/customParseFormat')
+dayjs.extend(customParseFormat)
+
 export const TIMESHEET_URL =
   /https:\/\/.*\.app\.openair\.com\/timesheet.*uid=.*timesheet_id=\d*/;
 
 export const TIMESHEET_TITLE = /OpenAir\s:\sTimesheets\s:\s.*/;
 
-export const DATE_RANGE_SELECTOR = '#app_header_title:nth-child(2)';
+export const DATE_RANGE_SELECTOR = '#app_header_title span:nth-child(2)';
 
 export function tabContains(url: RegExp, title: RegExp) {
   return (tab: Tab): boolean =>
@@ -14,6 +17,6 @@ export function tabContains(url: RegExp, title: RegExp) {
 }
 
 export function parse(dateText: string): { from: Dayjs; to: Dayjs } {
-  const split = dateText.trim().split('to');
-  return { from: dayjs(split[0]), to: dayjs(split[1]) };
+  const split = dateText.split('to').map(dateString => dateString.trim());
+  return { from: dayjs(split[0], 'DD-MM-YY'), to: dayjs(split[1], 'DD-MM-YY') };
 }

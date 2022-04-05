@@ -1,29 +1,38 @@
-import { TIMESHEET_TITLE, TIMESHEET_URL, tabContains } from './openAir/openAir';
-import { Request, Response } from './messages';
+import { parse, tabContains, TIMESHEET_TITLE, TIMESHEET_URL } from './openAir/openAir';
+import { Message, MessageType } from './messages';
+import { getDayReportsFromTempo } from './tempo/tempo';
+import { newDayRange } from './utils/utils';
+
+export const CONTENT_SCRIPT_PORT_NAME = 'tempo-to-openair';
 
 chrome.runtime.onMessage.addListener(
-  (request: Request, _, sendResponse: (response: Response) => void) => {
-    switch (request) {
-      case Request.BUTTON_CLICK:
-        fillTempoToOpenAir(sendResponse);
-        break;
-      default:
-        return false;
+  (request: Message, _, sendResponse: (response: Message) => void) => {
+    if (request.type === MessageType.BUTTON_CLICK) {
+      handleButtonClick(sendResponse);
+      return true;
     }
 
-    return true;
+    return false;
   }
 );
 
-async function fillTempoToOpenAir(sendResponse: (response: Response) => void) {
+async function handleButtonClick(sendResponse: (response: Message) => void) {
   chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
     if (!tabContains(TIMESHEET_URL, TIMESHEET_TITLE)(tabs[0])) {
-      sendResponse(Response.NOT_ON_OPENAIR_TIMESHEET_SITE);
+      sendResponse({ type: MessageType.NOT_ON_OPENAIR_TIMESHEET_SITE });
     }
 
     if (tabs[0].id) {
-      chrome.tabs.sendMessage(tabs[0].id, Request.REQUEST_DATES, response => {
-        console.log(response.farewell);
+      const port = chrome.tabs.connect(tabs[0].id, { name: CONTENT_SCRIPT_PORT_NAME });
+      port.postMessage({ type: MessageType.REQUEST_DATE_RANGE } as Message);
+
+      port.onMessage.addListener(async (message: Message) => {
+        if (message.type === MessageType.SUCCESS) {
+          const { from, to } = parse(message.payload as string);
+          const days = newDayRange(from, to);
+          const dayReports = await getDayReportsFromTempo(254, days);
+          console.log('dayReports', dayReports);
+        }
       });
     }
   });

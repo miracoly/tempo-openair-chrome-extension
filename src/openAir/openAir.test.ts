@@ -2,6 +2,9 @@ import Tab = chrome.tabs.Tab;
 import { TIMESHEET_TITLE, TIMESHEET_URL, tabContains, parse } from './openAir';
 import dayjs from 'dayjs';
 
+const customParseFormat = require('dayjs/plugin/customParseFormat')
+dayjs.extend(customParseFormat)
+
 describe('tabContains', () => {
   it('should return true if url and title match', () => {
     const tab: Partial<Tab> = {
@@ -19,7 +22,13 @@ describe('parse', () => {
   it('should return date boundaries from text', () => {
     const boundaries = parse('04-04-22 to 10-04-22');
 
-    expect(boundaries.from).toStrictEqual(dayjs('04-04-2022'))
-    expect(boundaries.to).toStrictEqual(dayjs('10-04-2022'))
+    expect(boundaries.from).toStrictEqual(dayjs('04-04-2022', 'DD-MM-YYYY'))
+    expect(boundaries.to).toStrictEqual(dayjs('10-04-2022', 'DD-MM-YYYY'))
+  });
+  it('should return date boundaries from text', () => {
+    const boundaries = parse('21-03-22 to 27-03-22');
+
+    expect(boundaries.from).toStrictEqual(dayjs('21-03-2022', 'DD-MM-YYYY'))
+    expect(boundaries.to).toStrictEqual(dayjs('27-03-2022', 'DD-MM-YYYY'))
   });
 })

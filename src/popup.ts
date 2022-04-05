@@ -1,13 +1,12 @@
-
-import { Request, Response } from './messages';
+import { Message, MessageType } from './messages';
 
 document.getElementById('button')?.addEventListener('click', function () {
-  chrome.runtime.sendMessage(Request.BUTTON_CLICK, (response: Response) => {
-    switch (response) {
-      case Response.SUCCESS:
+  chrome.runtime.sendMessage({ type: MessageType.BUTTON_CLICK } as Message, (response: Message): void => {
+    switch (response.type) {
+      case MessageType.SUCCESS:
         console.log('Response was SUCCESS');
         break;
-      case Response.NOT_ON_OPENAIR_TIMESHEET_SITE:
+      case MessageType.NOT_ON_OPENAIR_TIMESHEET_SITE:
         console.log('Response was NOT_ON_OPENAIR_TIMESHEET_SITE');
         break;
       default:
