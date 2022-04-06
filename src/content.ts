@@ -1,5 +1,12 @@
 import { Message, MessageType } from './messages';
-import { CellWithDate, DATE_RANGE_SELECTOR, TABLE_CELLS_SELECTOR, toTableCellWithDay, } from './openAir/openAir';
+import {
+  CellWithDate,
+  DATE_RANGE_SELECTOR,
+  DESCRIPTION_POPUP_SELECTOR,
+  TABLE_CELLS_SELECTOR,
+  TEXTAREA_SELECTOR,
+  toTableCellWithDay,
+} from './openAir/openAir';
 import { BACKEND_CONTENT_PORT_NAME } from './background';
 import { DayReport } from './tempo/types';
 import dayjs from 'dayjs';
@@ -36,27 +43,33 @@ function handleFillInReport(message: Message, port: Port) {
   const cells: HTMLTableCellElement[] = Array.from(document.querySelectorAll(TABLE_CELLS_SELECTOR));
   const cellsWithDay = cells.map(toTableCellWithDay).filter(cell => cell.day);
 
-  cellsWithDay.forEach(fillInTotalTimeSpendHours(dayReports));
+  cellsWithDay.forEach(fillIn(dayReports));
 
   port.postMessage({ type: MessageType.SUCCESS });
 }
 
-function fillInTotalTimeSpendHours(dayReports: DayReport[]) {
+function fillIn(dayReports: DayReport[]) {
   return (cell: CellWithDate) => {
     const dayReport = dayReports.find(report => report.day.isSame(cell.day, 'date'));
     const input = cell.cell.querySelector('input');
     const a = cell.cell.querySelector('a');
+
     if (input && a && dayReport) {
       input.value = toHourString(dayReport.totalTimeSpendSeconds);
-      a.click();
-      const descriptionPopup = document.querySelector('body > div.dialogBlock.dialogBlock1Column.fade.ui-draggable');
-      if (descriptionPopup) {
-        const textArea: HTMLTextAreaElement = descriptionPopup.querySelector('textarea#tm_notes') as HTMLTextAreaElement;
-        textArea.value = dayReport.descriptions.join('\n\n');
-        const okButton = Array.from(descriptionPopup.querySelectorAll('button'))
-          .find(button => button.textContent === 'OK') as HTMLButtonElement;
-        okButton.click();
-      }
+      fillInDescription(a, dayReport);
     }
   };
+}
+
+function fillInDescription(a: HTMLAnchorElement, dayReport: DayReport) {
+  a.click(); // brings popup into existence
+  const descriptionPopup = document.querySelector(DESCRIPTION_POPUP_SELECTOR) as HTMLDivElement;
+  const textArea = descriptionPopup.querySelector(TEXTAREA_SELECTOR) as HTMLTextAreaElement;
+  const okButton = Array.from(descriptionPopup.querySelectorAll('button')).find(
+    button => button.textContent === 'OK'
+  ) as HTMLButtonElement;
+  if (descriptionPopup && textArea && okButton) {
+    textArea.value = dayReport.descriptions.join('\n\n');
+    okButton.click();
+  }
 }

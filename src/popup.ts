@@ -6,8 +6,8 @@ document.getElementById('button')?.addEventListener('click', () => {
       case MessageType.SUCCESS:
         console.log('Response was SUCCESS');
         break;
-      case MessageType.NOT_ON_OPENAIR_TIMESHEET_SITE:
-        console.log('Response was NOT_ON_OPENAIR_TIMESHEET_SITE');
+      case MessageType.FAILURE:
+        console.log('Response was FAILURE');
         break;
       default:
         console.log('unknown response');

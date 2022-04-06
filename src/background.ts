@@ -20,14 +20,11 @@ chrome.runtime.onMessage.addListener(
 function handleButtonClick(sendResponse: (response: Message) => void) {
   return (tab: Tab[]): void => {
     const activeTab = tab[0];
-    if (!tabContains(TIMESHEET_URL, TIMESHEET_TITLE)(activeTab)) {
-      sendResponse({ type: MessageType.NOT_ON_OPENAIR_TIMESHEET_SITE });
+    if (activeTab.id && tabContains(TIMESHEET_URL, TIMESHEET_TITLE)(activeTab)) {
+      fillInReport(activeTab.id, sendResponse);
+    } else {
+      sendResponse({ type: MessageType.FAILURE });
     }
-    if (!activeTab.id) {
-      sendResponse({ type: MessageType.UNEXPECTED_FAILURE });
-      return;
-    }
-    fillInReport(activeTab.id, sendResponse);
   };
 }
 
@@ -36,15 +33,19 @@ function fillInReport(tabId: number, sendResponse: (response: Message) => void):
   portToContent.postMessage({ type: MessageType.REQUEST_DATE_RANGE } as Message);
 
   portToContent.onMessage.addListener(async (message: Message, port) => {
-    if (message.type === MessageType.RESPOND_DATE_RANGE) {
-      const reports = await getReports(message);
-      port.postMessage({ type: MessageType.FILL_IN_REPORT, payload: reports } as Message);
-    } else if (message.type === MessageType.SUCCESS) {
-      sendResponse(message);
-      port.disconnect();
-    } else {
-      sendResponse({type: MessageType.UNEXPECTED_FAILURE})
-      port.disconnect();
+    switch (message.type) {
+      case MessageType.RESPOND_DATE_RANGE:
+        const reports = await getReports(message);
+        port.postMessage({ type: MessageType.FILL_IN_REPORT, payload: reports } as Message);
+        break;
+      case MessageType.SUCCESS:
+        sendResponse(message);
+        port.disconnect();
+        break;
+      default:
+        sendResponse({ type: MessageType.FAILURE });
+        port.disconnect();
+        break;
     }
   });
 }
