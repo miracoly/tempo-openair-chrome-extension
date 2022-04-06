@@ -5,23 +5,13 @@ import { accumulate, addParamsTo } from '../utils/utils';
 
 const BASE_URL = 'https://api.tempo.io/core/3';
 
-export async function getDayReportsFromTempo(issueKey: number, days: Dayjs[]): Promise<DayReport[]> {
-  const response = await fetchWorkLogs(issueKey, days[0], days[days.length - 1]);
-  const workLogs = parseWorkLogsFrom(response);
-
-  return days
-    .map(day => workLogs.filter(wl => wl.startDate.isSame(day, 'date')))
-    .map(accumulate(combine)('issueKey', 'description'))
-    .map(generateReport)
-    .map((report, i) => ({ ...report, day: days[i] }))
-    .filter(dayReport => dayReport.totalTimeSpendSeconds != 0);
+export function getDayReportsFromTempo(issueKey: number, days: Dayjs[]): Promise<DayReport[]> {
+  return fetchWorkLogs(issueKey, days[0], days[days.length - 1])
+    .then(parseWorkLogsFrom)
+    .then(generateDayReport(days));
 }
 
-export async function fetchWorkLogs(
-  issueKey: number,
-  from: Dayjs,
-  to: Dayjs
-): Promise<WorkLogResponse> {
+export function fetchWorkLogs(issueKey: number, from: Dayjs, to: Dayjs): Promise<WorkLogResponse> {
   const params: Record<string, string> = {
     issue: `TIME-${issueKey}`,
     from: from.format('YYYY-MM-DD'),
@@ -29,12 +19,12 @@ export async function fetchWorkLogs(
   };
   const url = addParamsTo(BASE_URL + '/worklogs', params);
 
-  const response = await fetch(url, {
+  return fetch(url, {
     method: 'GET',
     headers: { Authorization: 'Bearer ' + TOKEN },
-  });
-
-  return response.json();
+  })
+    .then(response => response.json())
+    .catch(reason => console.log(reason));
 }
 
 export function parseWorkLogsFrom(response: WorkLogResponse): WorkLog[] {
@@ -44,6 +34,16 @@ export function parseWorkLogsFrom(response: WorkLogResponse): WorkLog[] {
     startDate: dayjs(wl.startDate + 'T' + wl.startTime, 'YYYY-MM-DDTHH:mm:ss'),
     timeSpentSeconds: wl.timeSpentSeconds,
   }));
+}
+
+export function generateDayReport(days: dayjs.Dayjs[]) {
+  return (workLogs: WorkLog[]): DayReport[] =>
+    days
+      .map(day => workLogs.filter(wl => wl.startDate.isSame(day, 'date')))
+      .map(accumulate(combine)('issueKey', 'description'))
+      .map(generateReport)
+      .map((report, i) => ({ ...report, day: days[i] }))
+      .filter(dayReport => dayReport.totalTimeSpendSeconds != 0);
 }
 
 export function generateReport(workLogs: WorkLog[]): Report {

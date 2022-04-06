@@ -4,6 +4,7 @@ import { getDayReportsFromTempo } from './tempo/tempo';
 import { newDayRange } from './utils/utils';
 import Tab = chrome.tabs.Tab;
 import MessageSender = chrome.runtime.MessageSender;
+import { DayReport } from './tempo/types';
 
 export const BACKEND_CONTENT_PORT_NAME = 'backend-to-content';
 
@@ -48,7 +49,7 @@ function fillInReport(tabId: number, sendResponse: (response: Message) => void):
   });
 }
 
-function getReports(message: Message) {
+function getReports(message: Message): Promise<DayReport[]> {
   const { from, to } = parseBoundaries(message.payload as string);
   return getDayReportsFromTempo(288, newDayRange(from, to));
 }
