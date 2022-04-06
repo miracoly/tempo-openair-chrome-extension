@@ -1,5 +1,10 @@
 import { Message, MessageType } from './messages';
-import { CellWithDate, DATE_RANGE_SELECTOR, TABLE_CELLS_SELECTOR, toTableCellWithDay } from './openAir/openAir';
+import {
+  CellWithDate,
+  DATE_RANGE_SELECTOR,
+  TABLE_CELLS_SELECTOR,
+  toTableCellWithDay,
+} from './openAir/openAir';
 import { BACKEND_CONTENT_PORT_NAME } from './background';
 import { DayReport } from './tempo/types';
 import dayjs from 'dayjs';
@@ -14,7 +19,7 @@ chrome.runtime.onConnect.addListener(portToBackend => {
       handleRequestDateRange(port);
     }
     if (message.type === MessageType.FILL_IN_REPORT) {
-      handleFillInReport(message);
+      handleFillInReport(message, port);
     }
   });
 });
@@ -28,7 +33,7 @@ function handleRequestDateRange(port: Port) {
   port.postMessage(response);
 }
 
-function handleFillInReport(message: Message) {
+function handleFillInReport(message: Message, port: Port) {
   const dayReports: DayReport[] = (message.payload as DayReport[]).map(report => ({
     ...report,
     day: dayjs(report.day),
@@ -37,6 +42,8 @@ function handleFillInReport(message: Message) {
   const cellsWithDay = cells.map(toTableCellWithDay).filter(cell => cell.day);
 
   cellsWithDay.forEach(fillInTotalTimeSpendHours(dayReports));
+
+  port.postMessage({ type: MessageType.SUCCESS });
 }
 
 function fillInTotalTimeSpendHours(dayReports: DayReport[]) {

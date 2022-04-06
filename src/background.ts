@@ -12,6 +12,7 @@ chrome.runtime.onMessage.addListener(
     if (request.type === MessageType.BUTTON_CLICK) {
       chrome.tabs.query({ active: true, currentWindow: true }, handleButtonClick(sendResponse));
     }
+    return true;
   }
 );
 
@@ -37,8 +38,11 @@ function fillInReport(tabId: number, sendResponse: (response: Message) => void):
     if (message.type === MessageType.RESPOND_DATE_RANGE) {
       const reports = await getReports(message);
       port.postMessage({ type: MessageType.FILL_IN_REPORT, payload: reports } as Message);
-    } else {
+    } else if (message.type === MessageType.SUCCESS) {
       sendResponse(message);
+      port.disconnect();
+    } else {
+      sendResponse({type: MessageType.UNEXPECTED_FAILURE})
       port.disconnect();
     }
   });
