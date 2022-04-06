@@ -1,4 +1,4 @@
-import { accumulate, addParamsTo, newDayRange } from './utils';
+import { accumulate, addParamsTo, newDayRange, toHourString } from './utils';
 import workLogsOneDay from '../mocks/workLogsOneDay';
 import { combine } from '../tempo/tempo';
 import workLogsOneDayAccumulated from '../mocks/workLogsOneDayAccumulated';
@@ -51,7 +51,7 @@ describe('newDayRange', () => {
 
     expect(range).toStrictEqual(expected);
   });
-})
+});
 
 describe('addParamsTo', () => {
   it('should return url with params', () => {
@@ -66,5 +66,19 @@ describe('addParamsTo', () => {
       'https://api.tempo.io/core/3/worklogs?issue=TIME-254&from=2022-03-21&to=2022-03-27';
 
     expect(url).toBe(expectedUrl);
+  });
+});
+
+describe('toHourString', () => {
+  it.each`
+    seconds | hourString
+    ${7200} | ${'2'}
+    ${8100} | ${'2.25'}
+    ${9000} | ${'2.5'}
+    ${9900} | ${'2.75'}
+    ${10800} | ${'3'}
+  `("should convert '${seconds}' to '${hourString}", ({ seconds, hourString }) => {
+    const hours = toHourString(seconds);
+    expect(hours).toStrictEqual(hourString);
   });
 });

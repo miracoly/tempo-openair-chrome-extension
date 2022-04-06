@@ -19,8 +19,9 @@ export { TOKEN };
 == Usage
 TODO
 
-=== Limitations
-- Only works with one Tempo-Ticket number.
+=== Be Aware
+- only works with one Tempo-Ticket number.
+- it fills calculated total hours with dot instead of comma for OpenAir timesheet, eg. `2.5` instead of `2,5`
 
 == Contribute
 TODO

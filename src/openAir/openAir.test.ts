@@ -1,5 +1,5 @@
 import Tab = chrome.tabs.Tab;
-import { parseBoundaries, tabContains, TIMESHEET_TITLE, TIMESHEET_URL } from './openAir';
+import { parseBoundaries, tabContains, TIMESHEET_TITLE, TIMESHEET_URL, toTableCellWithDay } from './openAir';
 import dayjs from 'dayjs';
 
 const customParseFormat = require('dayjs/plugin/customParseFormat')
@@ -30,5 +30,19 @@ describe('parseBoundaries', () => {
 
     expect(boundaries.from).toStrictEqual(dayjs('21-03-2022', 'DD-MM-YYYY'))
     expect(boundaries.to).toStrictEqual(dayjs('27-03-2022', 'DD-MM-YYYY'))
+  });
+})
+
+describe('toTableCellWithDay', () => {
+  it('should extract correct day from html td element', function () {
+    const a: Partial<HTMLAnchorElement> = document.createElement('a' );
+    const cell: Partial<HTMLTableCellElement> = document.createElement('td');
+    (a as HTMLAnchorElement).setAttribute('data-additional-title', 'Monday, 04-04-22');
+    (cell as HTMLTableCellElement).appendChild(a as HTMLAnchorElement);
+
+    const cellWithDate = toTableCellWithDay(cell as HTMLTableCellElement);
+
+    expect(cellWithDate.cell).toStrictEqual(cell);
+    expect(cellWithDate.day).toStrictEqual(dayjs('04-04-2022', 'DD-MM-YYYY'))
   });
 })

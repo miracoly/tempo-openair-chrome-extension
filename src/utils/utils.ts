@@ -28,3 +28,7 @@ export function addParamsTo(url: string, params: Record<string, string>): string
 
   return newUrl.toString();
 }
+
+export function toHourString(seconds: number) {
+  return (seconds / 3600).toString();
+}
