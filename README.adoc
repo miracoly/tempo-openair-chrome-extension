@@ -19,6 +19,9 @@ export { TOKEN };
 == Usage
 TODO
 
+=== Limitations
+- Only works with one Tempo-Ticket number.
+
 == Contribute
 TODO
 
