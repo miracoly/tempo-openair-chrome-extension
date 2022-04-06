@@ -3,7 +3,7 @@
   "description": "This extension fills your openair timesheet with your jira tempo entries.",
   "version": "1.0",
   "manifest_version": 3,
-  "permissions": ["activeTab", "scripting"],
+  "permissions": ["activeTab", "scripting", "storage"],
   "content_scripts": [
     {
       "matches": ["https://*.app.openair.com/*"],
