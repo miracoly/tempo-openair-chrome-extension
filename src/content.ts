@@ -1,10 +1,5 @@
 import { Message, MessageType } from './messages';
-import {
-  CellWithDate,
-  DATE_RANGE_SELECTOR,
-  TABLE_CELLS_SELECTOR,
-  toTableCellWithDay,
-} from './openAir/openAir';
+import { CellWithDate, DATE_RANGE_SELECTOR, TABLE_CELLS_SELECTOR, toTableCellWithDay, } from './openAir/openAir';
 import { BACKEND_CONTENT_PORT_NAME } from './background';
 import { DayReport } from './tempo/types';
 import dayjs from 'dayjs';
@@ -50,8 +45,18 @@ function fillInTotalTimeSpendHours(dayReports: DayReport[]) {
   return (cell: CellWithDate) => {
     const dayReport = dayReports.find(report => report.day.isSame(cell.day, 'date'));
     const input = cell.cell.querySelector('input');
-    if (input && dayReport) {
+    const a = cell.cell.querySelector('a');
+    if (input && a && dayReport) {
       input.value = toHourString(dayReport.totalTimeSpendSeconds);
+      a.click();
+      const descriptionPopup = document.querySelector('body > div.dialogBlock.dialogBlock1Column.fade.ui-draggable');
+      if (descriptionPopup) {
+        const textArea: HTMLTextAreaElement = descriptionPopup.querySelector('textarea#tm_notes') as HTMLTextAreaElement;
+        textArea.value = dayReport.descriptions.join('\n\n');
+        const okButton = Array.from(descriptionPopup.querySelectorAll('button'))
+          .find(button => button.textContent === 'OK') as HTMLButtonElement;
+        okButton.click();
+      }
     }
   };
 }
