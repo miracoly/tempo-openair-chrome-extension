@@ -15,45 +15,57 @@ export type LocalStorage = {
 chrome.runtime.onMessage.addListener(
   (request: Message, _: MessageSender, sendResponse: (response: Message) => void) => {
     if (request.type === MessageType.BUTTON_CLICK) {
-      chrome.tabs.query({ active: true, currentWindow: true }, handleButtonClick(sendResponse));
+      chrome.tabs.query(
+        { active: true, currentWindow: true },
+        useStorageOnTabWith(handleButtonClick(sendResponse))
+      );
     }
     return true;
   }
 );
 
-function handleButtonClick(sendResponse: (response: Message) => void) {
-  return (tab: Tab[]): void => {
-    const activeTab = tab[0];
-    if (activeTab.id && tabContains(TIMESHEET_URL, TIMESHEET_TITLE)(activeTab)) {
-      chrome.storage.sync.get(['issueKey'], fillInReport(activeTab.id, sendResponse));
-    } else {
-      sendResponse({ type: MessageType.FAILURE });
-    }
+function useStorageOnTabWith(callback: (tab: Tab[]) => any) {
+  return (tab: Tab[]) => {
+    chrome.storage.sync.get(['issueKey'], callback(tab));
   };
 }
 
-function fillInReport(tabId: number, sendResponse: (response: Message) => void) {
-  return (storage: LocalStorage) => {
-    const portToContent = chrome.tabs.connect(tabId, { name: BACKEND_CONTENT_PORT_NAME });
-    portToContent.postMessage({ type: MessageType.REQUEST_DATE_RANGE } as Message);
-
-    portToContent.onMessage.addListener(async (message: Message, port) => {
-      switch (message.type) {
-        case MessageType.RESPOND_DATE_RANGE:
-          const reports = await getReports(storage.issueKey, message.payload as string);
-          port.postMessage({ type: MessageType.FILL_IN_REPORT, payload: reports } as Message);
-          break;
-        case MessageType.SUCCESS:
-          sendResponse(message);
-          port.disconnect();
-          break;
-        default:
-          sendResponse({ type: MessageType.FAILURE });
-          port.disconnect();
-          break;
+function handleButtonClick(sendResponse: (response: Message) => void) {
+  return (tab: Tab[]) =>
+    (storage: LocalStorage): void => {
+      const activeTab = tab[0];
+      if (!storage.issueKey) {
+        sendResponse({ type: MessageType.ISSUE_KEY_NOT_SET });
+      } else if (!tabContains(TIMESHEET_URL, TIMESHEET_TITLE)(activeTab)) {
+        sendResponse({ type: MessageType.NOT_ON_OPENAIR_TIMESHEET_SITE });
+      } else if (activeTab.id) {
+        fillInReport(activeTab.id, storage.issueKey, sendResponse);
+      } else {
+        sendResponse({ type: MessageType.UNEXPECTED_FAILURE });
       }
-    });
-  };
+    };
+}
+
+function fillInReport(tabId: number, issueKey: number, sendResponse: (response: Message) => void) {
+  const portToContent = chrome.tabs.connect(tabId, { name: BACKEND_CONTENT_PORT_NAME });
+  portToContent.postMessage({ type: MessageType.REQUEST_DATE_RANGE } as Message);
+
+  portToContent.onMessage.addListener(async (message: Message, port) => {
+    switch (message.type) {
+      case MessageType.RESPOND_DATE_RANGE:
+        const reports = await getReports(issueKey, message.payload as string);
+        port.postMessage({ type: MessageType.FILL_IN_REPORT, payload: reports } as Message);
+        break;
+      case MessageType.SUCCESS:
+        sendResponse(message);
+        port.disconnect();
+        break;
+      default:
+        sendResponse({ type: MessageType.UNEXPECTED_FAILURE });
+        port.disconnect();
+        break;
+    }
+  });
 }
 
 function getReports(issueKey: number, dateText: string): Promise<DayReport[]> {
