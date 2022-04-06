@@ -6,6 +6,7 @@ export enum MessageType {
   DATE_RANGE_NOT_FOUND,
   FILL_IN_REPORT,
   UNEXPECTED_FAILURE,
+  SUCCESS,
 }
 
 export interface Message {

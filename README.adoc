@@ -31,5 +31,5 @@ Axios can not be used in Google Chrome Extension.
 
 *Logging*
 
-- `console.log()` in `contentScript.ts` gets logged in normal page console
+- `console.log()` in `content.ts` gets logged in normal page console
 - `background.ts` and `popup.ts` logs get printed to different console. To view, right-click extension icon in chrome menu and click `Inspect Popup`
