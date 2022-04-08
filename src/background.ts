@@ -58,7 +58,7 @@ function listenToContent(sendResponse: (response: Message) => void) {
       case MessageType.RESPOND_DATE_RANGE:
         useStorageWith(
           ['issueKey', 'tempoApiToken'],
-          getAndSendDayReports(message.payload, port),
+          getAndSendDayReports(message.payload, port, handleFetchError(sendResponse)),
           handleKeysNotFound(sendResponse)
         );
         break;
@@ -84,22 +84,36 @@ function handleKeysNotFound(sendResponse: (response: Message) => void) {
   };
 }
 
-function getAndSendDayReports(dateText: string, port: Port) {
+function getAndSendDayReports(
+  dateText: string,
+  port: Port,
+  handleError?: (reason: any) => void
+) {
   return (storage: LocalStorage): void => {
     const { from, to } = parseBoundaries(dateText);
-    const days = newDayRange(from, to);
     const filter: WorkLogFilter = {
       issueKey: storage.issueKey,
       from,
       to,
     };
     console.log('inside getAndSendDayReports', storage.tempoApiToken);
-    fetchDayReports(days, filter, storage.tempoApiToken, sendDayReportsTo(port));
+    fetchDayReports(
+      newDayRange(from, to),
+      {filter, token: storage.tempoApiToken},
+      sendDayReportsTo(port),
+      handleError
+    );
   };
 }
 
 function sendDayReportsTo(port: Port) {
   return (reports: DayReport[]): void => {
     port.postMessage({ type: MessageType.FILL_IN_REPORT, payload: reports });
+  };
+}
+
+function handleFetchError(sendResonse: (response: Message) => void) {
+  return (reason: any): void => {
+    sendResonse({ type: MessageType.COULD_NOT_FETCH_TEMPO_API, payload: reason });
   };
 }

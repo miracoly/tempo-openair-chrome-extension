@@ -3,7 +3,7 @@ import { DayReport, Report, WorkLog, WorkLogResponse } from './types';
 import { accumulate, addParamsTo } from '../utils/utils';
 
 const BASE_URL = 'https://api.tempo.io/core/3';
-const WORKLOGS_URL = '/worklogs';
+const WORKLOGS_URL = '/worklogse';
 
 export interface WorkLogFilter {
   issueKey: number;
@@ -11,33 +11,42 @@ export interface WorkLogFilter {
   to: Dayjs;
 }
 
+export interface WorkLogConfig {
+  filter: WorkLogFilter;
+  token: string;
+}
+
 export function fetchDayReports(
-  days: dayjs.Dayjs[],
-  filter: WorkLogFilter,
-  token: string,
-  callback: (reports: DayReport[]) => void
+  days: Dayjs[],
+  config: WorkLogConfig,
+  callback: (reports: DayReport[]) => void,
+  handleError?: (reason: any) => void
 ): void {
-  fetchWorkLogs(filter, token, response => {
-    const workLogs = parseWorkLogsFrom(response);
-    const dayReports = generateDayReport(workLogs, days);
-    callback(dayReports);
-  });
+  fetchWorkLogs(
+    config,
+    response => {
+      const workLogs = parseWorkLogsFrom(response);
+      const dayReports = generateDayReport(workLogs, days);
+      callback(dayReports);
+    },
+    handleError
+  );
 }
 
 export function fetchWorkLogs(
-  filter: WorkLogFilter,
-  token: string,
-  callback: (response: WorkLogResponse) => void
+  config: WorkLogConfig,
+  callback: (response: WorkLogResponse) => void,
+  handleError?: (reason: any) => void
 ): void {
-  const url = buildUrlFrom(BASE_URL + WORKLOGS_URL, filter);
+  const url = buildUrlFrom(BASE_URL + WORKLOGS_URL, config.filter);
 
   fetch(url, {
     method: 'GET',
-    headers: { Authorization: 'Bearer ' + token },
+    headers: { Authorization: 'Bearer ' + config.token },
   })
     .then(response => response.json())
     .then(callback)
-    .catch(reason => console.log(`Could not fetch workLogs from tempo, reason: ${reason}`));
+    .catch(handleError);
 }
 
 function buildUrlFrom(baseUrl: string, filter: WorkLogFilter): string {
@@ -58,7 +67,7 @@ export function parseWorkLogsFrom(response: WorkLogResponse): WorkLog[] {
   }));
 }
 
-export function generateDayReport(workLogs: WorkLog[], days: dayjs.Dayjs[]): DayReport[] {
+export function generateDayReport(workLogs: WorkLog[], days: Dayjs[]): DayReport[] {
   return days
     .map(day => workLogs.filter(wl => wl.startDate.isSame(day, 'date')))
     .map(accumulate(combine)('issueKey', 'description'))

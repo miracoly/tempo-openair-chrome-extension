@@ -32,7 +32,7 @@ describe('getWorkLogReportOf', () => {
       to,
     };
 
-    fetchDayReports(week, filter, '', (dayReports) => {
+    fetchDayReports(week, {filter, token: ''}, (dayReports) => {
       expect(dayReports).toStrictEqual(fullWorkLogDayReport);
     });
   });
