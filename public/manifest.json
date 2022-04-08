@@ -1,7 +1,7 @@
 {
-  "name": "Tempo Openair Filler",
-  "description": "This extension fills your openair timesheet with your jira tempo entries.",
-  "version": "1.0",
+  "name": "Tempo to Openair",
+  "description": "Automatically fill in your Tempo timesheets into OpenAir",
+  "version": "0.1.0-Snapshot",
   "manifest_version": 3,
   "permissions": ["activeTab", "scripting", "storage", "notifications"],
   "content_scripts": [
