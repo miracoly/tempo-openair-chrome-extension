@@ -1,4 +1,10 @@
-import { combine, generateReport, getDayReportsFromTempo, parseWorkLogsFrom} from './tempo';
+import {
+  combine,
+  fetchDayReports,
+  generateReport,
+  parseWorkLogsFrom,
+  WorkLogFilter,
+} from './tempo';
 import response from '../mocks/worklogResponse.json';
 import workLogResponse from '../mocks/worklogResponse.json';
 import workLogs from '../mocks/workLogs';
@@ -12,28 +18,28 @@ fetchMock.enableMocks();
 
 beforeEach(() => {
   fetchMock.resetMocks();
-})
+});
 
-describe('getWorkLogReportOf', ()=> {
-  it('should generate report of full week', async () => {
+describe('getWorkLogReportOf', () => {
+  it('should generate report of full week', () => {
     fetchMock.mockResponseOnce(JSON.stringify(workLogResponse));
-    const week = newDayRange(dayjs('2022-03-21'), dayjs('2022-03-27'));
+    const from = dayjs('2022-03-21');
+    const to = dayjs('2022-03-27');
+    const week = newDayRange(from, to);
+    const filter: WorkLogFilter = {
+      issueKey: 256,
+      from,
+      to,
+    };
 
-    const reports = await getDayReportsFromTempo(256, week);
-
-    expect(reports).toStrictEqual(fullWorkLogDayReport);
+    fetchDayReports(week, filter, (dayReports) => {
+      expect(dayReports).toStrictEqual(fullWorkLogDayReport);
+    });
   });
-})
-
-// TODO
-describe('fetchWorkLogs', () => {
-  it('should fetch with correct parameters', () => {
-
-  })
-})
+});
 
 describe('parseWorkLogsFrom', () => {
-  it('should parse response into WorkLogs[]', async () => {
+  it('should parse response into WorkLogs[]', () => {
     const parsed = parseWorkLogsFrom(response);
 
     expect(parsed).toStrictEqual(workLogs);
