@@ -28,9 +28,7 @@ function useStorageWith(
   handleNotFound: (nonExistingKeys: string[]) => void
 ): void {
   chrome.storage.sync.get(['issueKey', 'tempoApiToken'], (storage: LocalStorage) => {
-    console.log('storage inside useStorageWith', storage);
     const nonExistingKeys = keys.filter(key => !storage[key]);
-    console.log('nonExistingKeys', nonExistingKeys);
     if (nonExistingKeys.length === 0) {
       callback(storage);
     } else {
@@ -76,7 +74,6 @@ function listenToContent(sendResponse: (response: Message) => void) {
 
 function handleKeysNotFound(sendResponse: (response: Message) => void) {
   return (nonExistingKeys: string[]): void => {
-    console.log('inside handleKeysNotFound');
     sendResponse({
       type: MessageType.STORAGE_KEYS_NOT_FOUND,
       payload: { nonExistingKeys },
@@ -92,7 +89,6 @@ function getAndSendDayReports(dateText: string, port: Port, handleError?: (reaso
       from,
       to,
     };
-    console.log('inside getAndSendDayReports', storage.tempoApiToken);
     fetchDayReports(
       newDayRange(from, to),
       { filter, token: storage.tempoApiToken },

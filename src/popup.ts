@@ -27,7 +27,14 @@ function updateStorageWith(queryInputs: () => [string, HTMLInputElement][]) {
 function fillTimeSheet(): void {
   chrome.runtime.sendMessage(
     { type: MessageType.FILL_TIMESHEET } as Message,
-    (response: Message): void => console.log(`Response was ${MessageType[response.type]}`)
+    (response: Message): void => {
+      chrome.notifications.create('fill-timesheet', {
+        title: 'Tempo to OpenAir',
+        type: 'basic',
+        message: MessageType[response.type],
+        iconUrl: '/images/get_started128.png',
+      });
+    }
   );
 }
 
