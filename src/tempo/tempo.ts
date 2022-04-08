@@ -1,9 +1,9 @@
 import dayjs, { Dayjs } from 'dayjs';
 import { DayReport, Report, WorkLog, WorkLogResponse } from './types';
-import { TOKEN } from '../secrets';
 import { accumulate, addParamsTo } from '../utils/utils';
 
 const BASE_URL = 'https://api.tempo.io/core/3';
+const WORKLOGS_URL = '/worklogs';
 
 export interface WorkLogFilter {
   issueKey: number;
@@ -14,9 +14,10 @@ export interface WorkLogFilter {
 export function fetchDayReports(
   days: dayjs.Dayjs[],
   filter: WorkLogFilter,
+  token: string,
   callback: (reports: DayReport[]) => void
-) {
-  fetchWorkLogs(filter, response => {
+): void {
+  fetchWorkLogs(filter, token, response => {
     const workLogs = parseWorkLogsFrom(response);
     const dayReports = generateDayReport(workLogs, days);
     callback(dayReports);
@@ -25,20 +26,21 @@ export function fetchDayReports(
 
 export function fetchWorkLogs(
   filter: WorkLogFilter,
+  token: string,
   callback: (response: WorkLogResponse) => void
 ): void {
-  const url = buildUrlFrom(BASE_URL + '/worklogs', filter);
+  const url = buildUrlFrom(BASE_URL + WORKLOGS_URL, filter);
 
   fetch(url, {
     method: 'GET',
-    headers: { Authorization: 'Bearer ' + TOKEN },
+    headers: { Authorization: 'Bearer ' + token },
   })
     .then(response => response.json())
     .then(callback)
     .catch(reason => console.log(`Could not fetch workLogs from tempo, reason: ${reason}`));
 }
 
-function buildUrlFrom(baseUrl: string, filter: WorkLogFilter) {
+function buildUrlFrom(baseUrl: string, filter: WorkLogFilter): string {
   const params: Record<string, string> = {
     issue: `TIME-${filter.issueKey}`,
     from: filter.from.format('YYYY-MM-DD'),
@@ -56,7 +58,7 @@ export function parseWorkLogsFrom(response: WorkLogResponse): WorkLog[] {
   }));
 }
 
-export function generateDayReport(workLogs: WorkLog[], days: dayjs.Dayjs[]) {
+export function generateDayReport(workLogs: WorkLog[], days: dayjs.Dayjs[]): DayReport[] {
   return days
     .map(day => workLogs.filter(wl => wl.startDate.isSame(day, 'date')))
     .map(accumulate(combine)('issueKey', 'description'))

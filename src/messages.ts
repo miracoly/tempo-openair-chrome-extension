@@ -8,6 +8,7 @@ export enum MessageType {
   UNEXPECTED_FAILURE,
   SUCCESS,
   ISSUE_KEY_NOT_SET,
+  STORAGE_KEYS_NOT_FOUND,
 }
 
 export interface Message {

@@ -10,7 +10,7 @@ import Port = chrome.runtime.Port;
 export const BACKEND_CONTENT_PORT_NAME = 'backend-to-content';
 
 export type LocalStorage = {
-  [keys in 'issueKey' | string]: any;
+  [keys in 'issueKey' | 'tempoApiToken' | string]: any;
 };
 
 chrome.runtime.onMessage.addListener(
@@ -22,17 +22,27 @@ chrome.runtime.onMessage.addListener(
   }
 );
 
-function useStorageWith(callback: (storage: LocalStorage) => void) {
-  chrome.storage.sync.get(['issueKey'], callback);
+function useStorageWith(
+  keys: string[],
+  callback: (storage: LocalStorage) => void,
+  handleNotFound: (nonExistingKeys: string[]) => void
+): void {
+  chrome.storage.sync.get(['issueKey', 'tempoApiToken'], (storage: LocalStorage) => {
+    console.log('storage inside useStorageWith', storage);
+    const nonExistingKeys = keys.filter(key => !storage[key]);
+    console.log('nonExistingKeys', nonExistingKeys);
+    if (nonExistingKeys.length === 0) {
+      callback(storage);
+    } else {
+      handleNotFound(nonExistingKeys);
+    }
+  });
 }
 
 function fillTimesheet(sendResponse: (response: Message) => void) {
-  return (tabs: Tab[]) => {
+  return (tabs: Tab[]): void => {
     const activeTab = tabs[0];
-    console.log('tabContains', tabContains(TIMESHEET_URL, TIMESHEET_TITLE)(activeTab));
-    console.log('activeTab.id', activeTab.id);
     if (tabContains(TIMESHEET_URL, TIMESHEET_TITLE)(activeTab) && activeTab.id) {
-      console.log('On OpenAir site');
       const portToContent = chrome.tabs.connect(activeTab.id, { name: BACKEND_CONTENT_PORT_NAME });
       portToContent.onMessage.addListener(listenToContent(sendResponse));
       portToContent.postMessage({ type: MessageType.REQUEST_DATE_RANGE } as Message);
@@ -43,12 +53,14 @@ function fillTimesheet(sendResponse: (response: Message) => void) {
 }
 
 function listenToContent(sendResponse: (response: Message) => void) {
-  return (message: Message, port: Port) => {
-    console.log(`${MessageType[message.type]} received in background`);
+  return (message: Message, port: Port): void => {
     switch (message.type) {
       case MessageType.RESPOND_DATE_RANGE:
-        console.log('dateText', message.payload);
-        useStorageWith(getAndSendDayReports(message.payload, port));
+        useStorageWith(
+          ['issueKey', 'tempoApiToken'],
+          getAndSendDayReports(message.payload, port),
+          handleKeysNotFound(sendResponse)
+        );
         break;
       case MessageType.SUCCESS:
         sendResponse(message);
@@ -62,6 +74,16 @@ function listenToContent(sendResponse: (response: Message) => void) {
   };
 }
 
+function handleKeysNotFound(sendResponse: (response: Message) => void) {
+  return (nonExistingKeys: string[]): void => {
+    console.log('inside handleKeysNotFound');
+    sendResponse({
+      type: MessageType.STORAGE_KEYS_NOT_FOUND,
+      payload: { nonExistingKeys },
+    });
+  };
+}
+
 function getAndSendDayReports(dateText: string, port: Port) {
   return (storage: LocalStorage): void => {
     const { from, to } = parseBoundaries(dateText);
@@ -71,12 +93,13 @@ function getAndSendDayReports(dateText: string, port: Port) {
       from,
       to,
     };
-    fetchDayReports(days, filter, sendDayReportsTo(port));
+    console.log('inside getAndSendDayReports', storage.tempoApiToken);
+    fetchDayReports(days, filter, storage.tempoApiToken, sendDayReportsTo(port));
   };
 }
 
 function sendDayReportsTo(port: Port) {
-  return (reports: DayReport[]) => {
+  return (reports: DayReport[]): void => {
     port.postMessage({ type: MessageType.FILL_IN_REPORT, payload: reports });
   };
 }

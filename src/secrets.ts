@@ -1,3 +1,0 @@
-const TOKEN = '';
-
-export { TOKEN };

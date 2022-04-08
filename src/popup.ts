@@ -1,16 +1,34 @@
 import { Message, MessageType } from './messages';
 import { LocalStorage } from './background';
 
-document.querySelector('button#save-issue-key')?.addEventListener('click', () => {
-  const issueKeyText = (document.querySelector('input#tempo-issue-key') as HTMLInputElement).value;
-  const issueKey = issueKeyText === '' ? undefined : parseInt(issueKeyText);
-  chrome.storage.sync.set({ 'issueKey': issueKey });
-});
+document
+  .querySelector('button#save-issue-key')
+  ?.addEventListener('click', updateStorageWith(queryConfigInputs));
 
-chrome.storage.sync.get(['issueKey'], (result: LocalStorage) => {
+function updateStorageWith(queryInputs: () => [string, string][]) {
+  return (): void => {
+    const keyValues = queryInputs();
+    const keysToRemove = keyValues.filter(keyValue => !keyValue[1]).map(keyValue => keyValue[0]);
+    const keysToSave = keyValues.filter(keyValue => keyValue[1]);
+
+    chrome.storage.sync.remove(keysToRemove);
+    chrome.storage.sync.set(Object.fromEntries(keysToSave));
+  };
+}
+
+function queryConfigInputs() {
+  return Object.entries({
+    issueKey: (document.querySelector('input#tempo-issue-key') as HTMLInputElement).value,
+    tempoApiToken: (document.querySelector('input#tempo-api-token') as HTMLInputElement).value,
+  });
+}
+
+chrome.storage.sync.get(['issueKey', 'tempoApiToken'], (storage: LocalStorage) => {
   const input = document.querySelector('input#tempo-issue-key') as HTMLInputElement;
-  if (input) {
-    input.value = result.issueKey;
+  const tempoApiToken = document.querySelector('input#tempo-api-token') as HTMLInputElement;
+  if (input && tempoApiToken && storage.tempoApiToken && storage.issueKey) {
+    input.value = storage.issueKey;
+    tempoApiToken.value = storage.tempoApiToken;
   }
 });
 

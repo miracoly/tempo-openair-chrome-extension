@@ -7,7 +7,7 @@
 == Install
 TODO
 
-* create `secrets.ts` in `src` and add your token:
+* create Token with scope `Worklog: [x] View`
 
 [source,ts]
 ----
