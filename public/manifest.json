@@ -7,7 +7,8 @@
   "content_scripts": [
     {
       "matches": ["https://*.app.openair.com/*"],
-      "js": ["content.js"]
+      "js": ["content.js"],
+      "css": ["styles.css"]
     }
   ],
   "host_permissions": ["https://api.tempo.io/*"],

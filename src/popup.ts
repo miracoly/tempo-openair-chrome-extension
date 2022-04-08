@@ -1,5 +1,6 @@
 import { Message, MessageType } from './messages';
 import { LocalStorage } from './background';
+import 'flowbite';
 
 document
   .querySelector('button#save-issue-key')
