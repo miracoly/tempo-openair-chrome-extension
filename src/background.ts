@@ -84,11 +84,7 @@ function handleKeysNotFound(sendResponse: (response: Message) => void) {
   };
 }
 
-function getAndSendDayReports(
-  dateText: string,
-  port: Port,
-  handleError?: (reason: any) => void
-) {
+function getAndSendDayReports(dateText: string, port: Port, handleError?: (reason: any) => void) {
   return (storage: LocalStorage): void => {
     const { from, to } = parseBoundaries(dateText);
     const filter: WorkLogFilter = {
@@ -99,7 +95,7 @@ function getAndSendDayReports(
     console.log('inside getAndSendDayReports', storage.tempoApiToken);
     fetchDayReports(
       newDayRange(from, to),
-      {filter, token: storage.tempoApiToken},
+      { filter, token: storage.tempoApiToken },
       sendDayReportsTo(port),
       handleError
     );

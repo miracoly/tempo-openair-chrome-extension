@@ -1,16 +1,15 @@
 import { Message, MessageType } from './messages';
 import { LocalStorage } from './background';
-import 'flowbite';
 
-document
-  .querySelector('button#save-issue-key')
-  ?.addEventListener('click', updateStorageWith(queryConfigInputs));
+Array.from(document.querySelectorAll('input')).forEach(input =>
+  input.addEventListener('blur', updateStorageWith(queryConfigInputs))
+);
 
 document.querySelector('button#fill-timesheet')?.addEventListener('click', fillTimeSheet);
 
 chrome.storage.sync.get(['issueKey', 'tempoApiToken'], (storage: LocalStorage): void => {
   queryConfigInputs()
-    .filter(keyValue => !storage[keyValue[0]])
+    .filter(keyValue => storage[keyValue[0]])
     .forEach(keyValue => (keyValue[1].value = storage[keyValue[0]]));
 });
 

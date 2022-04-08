@@ -3,7 +3,7 @@ import { DayReport, Report, WorkLog, WorkLogResponse } from './types';
 import { accumulate, addParamsTo } from '../utils/utils';
 
 const BASE_URL = 'https://api.tempo.io/core/3';
-const WORKLOGS_URL = '/worklogse';
+const WORKLOGS_URL = '/worklogs';
 
 export interface WorkLogFilter {
   issueKey: number;
