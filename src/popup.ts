@@ -5,9 +5,17 @@ document
   .querySelector('button#save-issue-key')
   ?.addEventListener('click', updateStorageWith(queryConfigInputs));
 
-function updateStorageWith(queryInputs: () => [string, string][]) {
+document.querySelector('button#fill-timesheet')?.addEventListener('click', fillTimeSheet);
+
+chrome.storage.sync.get(['issueKey', 'tempoApiToken'], (storage: LocalStorage): void => {
+  queryConfigInputs()
+    .filter(keyValue => !storage[keyValue[0]])
+    .forEach(keyValue => (keyValue[1].value = storage[keyValue[0]]));
+});
+
+function updateStorageWith(queryInputs: () => [string, HTMLInputElement][]) {
   return (): void => {
-    const keyValues = queryInputs();
+    const keyValues = queryInputs().map(keyValue => [keyValue[0], keyValue[1].value]);
     const keysToRemove = keyValues.filter(keyValue => !keyValue[1]).map(keyValue => keyValue[0]);
     const keysToSave = keyValues.filter(keyValue => keyValue[1]);
 
@@ -16,25 +24,16 @@ function updateStorageWith(queryInputs: () => [string, string][]) {
   };
 }
 
-function queryConfigInputs() {
-  return Object.entries({
-    issueKey: (document.querySelector('input#tempo-issue-key') as HTMLInputElement).value,
-    tempoApiToken: (document.querySelector('input#tempo-api-token') as HTMLInputElement).value,
-  });
-}
-
-chrome.storage.sync.get(['issueKey', 'tempoApiToken'], (storage: LocalStorage) => {
-  const input = document.querySelector('input#tempo-issue-key') as HTMLInputElement;
-  const tempoApiToken = document.querySelector('input#tempo-api-token') as HTMLInputElement;
-  if (input && tempoApiToken && storage.tempoApiToken && storage.issueKey) {
-    input.value = storage.issueKey;
-    tempoApiToken.value = storage.tempoApiToken;
-  }
-});
-
-document.querySelector('button#fill-timesheet')?.addEventListener('click', () => {
+function fillTimeSheet(): void {
   chrome.runtime.sendMessage(
     { type: MessageType.FILL_TIMESHEET } as Message,
     (response: Message): void => console.log(`Response was ${MessageType[response.type]}`)
   );
-});
+}
+
+function queryConfigInputs(): [string, HTMLInputElement][] {
+  return Object.entries({
+    issueKey: document.querySelector('input#tempo-issue-key') as HTMLInputElement,
+    tempoApiToken: document.querySelector('input#tempo-api-token') as HTMLInputElement,
+  });
+}
