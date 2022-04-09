@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --config webpack/webpack.config.js",
+    "build": "webpack --config webpack/webpack.config.js && echo \"\nBuilding styles with Tailwind:\" ; npx tailwindcss -i ./src/popup/styles.css -o ./dist/styles.css",
     "watch": "webpack --watch --config webpack/webpack.config.js",
+    "watch:styles": "npx tailwindcss -i ./src/popup/styles.css -o ./dist/styles.css --watch",
     "test": "jest"
   },
   "keywords": [],

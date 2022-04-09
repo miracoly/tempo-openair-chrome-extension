@@ -1,5 +1,6 @@
 import { Message, MessageType } from './messages';
 import { LocalStorage } from './background';
+import 'flowbite';
 
 Array.from(document.querySelectorAll('input')).forEach(input =>
   input.addEventListener('blur', updateStorageWith(queryConfigInputs))
@@ -25,17 +26,18 @@ function updateStorageWith(queryInputs: () => [string, HTMLInputElement][]) {
 }
 
 function fillTimeSheet(): void {
-  chrome.runtime.sendMessage(
-    { type: MessageType.FILL_TIMESHEET } as Message,
-    (response: Message): void => {
-      chrome.notifications.create('fill-timesheet', {
-        title: 'Tempo to OpenAir',
-        type: 'basic',
-        message: MessageType[response.type],
-        iconUrl: '/images/get_started128.png',
-      });
-    }
-  );
+  setIsLoading();
+  chrome.runtime.sendMessage({ type: MessageType.FILL_TIMESHEET } as Message, handleResponse);
+}
+
+function handleResponse(response: Message): void {
+  unsetIsLoading();
+  chrome.notifications.create('fill-timesheet', {
+    title: 'Tempo to OpenAir',
+    type: 'basic',
+    message: MessageType[response.type],
+    iconUrl: '/images/logo128.png',
+  });
 }
 
 function queryConfigInputs(): [string, HTMLInputElement][] {
@@ -43,4 +45,14 @@ function queryConfigInputs(): [string, HTMLInputElement][] {
     issueKey: document.querySelector('input#tempo-issue-key') as HTMLInputElement,
     tempoApiToken: document.querySelector('input#tempo-api-token') as HTMLInputElement,
   });
+}
+
+function setIsLoading() {
+  document.querySelector('button#fill-timesheet')?.classList.add('hidden');
+  document.querySelector('#loading-spinner')?.classList.remove('hidden');
+}
+
+function unsetIsLoading() {
+  document.querySelector('button#fill-timesheet')?.classList.remove('hidden');
+  document.querySelector('#loading-spinner')?.classList.add('hidden');
 }
