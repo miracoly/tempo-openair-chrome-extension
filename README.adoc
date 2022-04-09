@@ -23,8 +23,19 @@ TODO
 - only works with one Tempo-Ticket number.
 - it fills calculated total hours with dot instead of comma for OpenAir timesheet, eg. `2.5` instead of `2,5`
 
-== Contribute
+== For Developers
 TODO
+
+=== Build
+
+==== Production
+
+1. `npm run build`
+2. Generate styles: `npx tailwindcss -i ./src/popup/styles.css -o ./dist/styles.css`
+
+==== Development
+
+1. `npm run watch`
 
 *Axios*
 
@@ -34,3 +45,7 @@ Axios can not be used in Google Chrome Extension.
 
 - `console.log()` in `content.ts` gets logged in normal page console
 - `background.ts` and `popup.ts` logs get printed to different console. To view, right-click extension icon in chrome menu and click `Inspect Popup`
+
+== Credits
+
+- Logo created by https://www.flaticon.com/free-icons/calendar[Maxim Basinski Premium - Flaticon]
