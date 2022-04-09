@@ -1,23 +1,42 @@
-= Tempo to OpenAir Chrome Extension
-:toc:
-:toc-title: Overview
+:doctype: article
+:toc: macro
 :source-highlighter: highlight.js
 :highlightjs-languages: typescript
 
+[.text-center]
+Tempo to Openair copies your tracked Tempo worklogs into your Openair timesheet.
+
+[.text-center]
+https://github.com/miracoly/tempo-openair-chrome-extension/releases/latest/[image:https://img.shields.io/badge/Chrome_Extension-v1.0.0--alpha.1-blue?style=for-the-badge&logo=google-chrome&logoColor=white[Chrome Extension Tempo to Openair]]
+
+[discrete]
+[.text-center]
+= Tempo to Openair
+
+[.text-center]
+* [x] Automatically copy your weekly worklogs from Tempo into your Openair timesheet.
+* [x] Duplicate Tasks per day get accumulated.
+* [x] Only copy tasks of a specific tempo Issue Key, eg.  TIME-123
+
+{empty} +
+
+toc::[]
+
 == Install
-TODO
 
-* create Token with scope `Worklog: [x] View`
+1. Download the https://github.com/miracoly/tempo-openair-chrome-extension/releases/latest/[latest Release as zip archive] and extract it.
+2. Go to `chrome://extensions/` in your Chrome browser and enable `Developer mode` in the upper right corner.
+3. Click `Load unpacked` and select the directory of the extracted zip archive.
 
-[source,ts]
-----
-const TOKEN = '<YOUR-SECRET-TOKEN-HERE>';
-
-export { TOKEN };
-----
+The extension is now ready to use. To update to a newer release remove the extracted folder and repeat the above steps.
 
 == Usage
-TODO
+
+=== Configure
+If you click on the extension, a popup opens which asks you to provide a *ticket number* and an *api token* for your Tempo account.
+
+1.
+
 
 === Be Aware
 - only works with one Tempo-Ticket number.

@@ -1,11 +1,11 @@
 import { Message, MessageType } from './messages';
 import {
   CellWithDate,
+  toTableCellWithDay,
   DATE_RANGE_SELECTOR,
   DESCRIPTION_POPUP_SELECTOR,
   TABLE_CELLS_SELECTOR,
   TEXTAREA_SELECTOR,
-  toTableCellWithDay,
 } from './openAir/openAir';
 import { BACKEND_CONTENT_PORT_NAME } from './background';
 import { DayReport } from './tempo/types';
