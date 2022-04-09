@@ -1,7 +1,7 @@
 {
   "name": "Tempo to Openair",
   "description": "Automatically fill in your Tempo timesheets into OpenAir",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "manifest_version": 3,
   "permissions": ["activeTab", "scripting", "storage", "notifications"],
   "content_scripts": [

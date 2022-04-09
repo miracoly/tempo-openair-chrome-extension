@@ -1,6 +1,5 @@
 import { Message, MessageType } from './messages';
 import { LocalStorage } from './background';
-import 'flowbite';
 
 Array.from(document.querySelectorAll('input')).forEach(input =>
   input.addEventListener('blur', updateStorageWith(queryConfigInputs))
