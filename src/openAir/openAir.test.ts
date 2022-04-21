@@ -8,8 +8,8 @@ dayjs.extend(customParseFormat)
 describe('tabContains', () => {
   it('should return true if url and title match', () => {
     const tab: Partial<Tab> = {
-      url: 'https://valtech.app.openair.com/timesheet.pl?app=ta;uid=1a2b3c4d5e6c7e8f9g;r=123456;action=grid;timesheet_id=123456789',
-      title: 'OpenAir : Timesheets : Valtech',
+      url: 'https://generic.app.openair.com/timesheet.pl?app=ta;uid=1a2b3c4d5e6c7e8f9g;r=123456;action=grid;timesheet_id=123456789',
+      title: 'OpenAir : Timesheets : Generic',
     };
 
     const doesContain = tabContains(TIMESHEET_URL, TIMESHEET_TITLE)(tab as Tab);
