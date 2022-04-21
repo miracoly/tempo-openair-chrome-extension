@@ -11,6 +11,10 @@
       "css": ["styles.css"]
     }
   ],
+  "web_accessible_resources": [{
+    "resources": ["injection.js"],
+    "matches": ["https://*.app.openair.com/*"]
+  }],
   "host_permissions": ["https://api.tempo.io/*"],
   "background": {
     "service_worker": "background.js"

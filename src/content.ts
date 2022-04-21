@@ -40,10 +40,12 @@ function handleFillInReport(message: Message, port: Port) {
     ...report,
     day: dayjs(report.day),
   }));
+
   const cells: HTMLTableCellElement[] = Array.from(document.querySelectorAll(TABLE_CELLS_SELECTOR));
   const cellsWithDay = cells.map(toTableCellWithDay).filter(cell => cell.day);
 
   cellsWithDay.forEach(fillIn(dayReports));
+  injectScript('injection.js');
 
   port.postMessage({ type: MessageType.SUCCESS });
 }
@@ -72,4 +74,10 @@ function fillInDescription(a: HTMLAnchorElement, dayReport: DayReport) {
     textArea.value = dayReport.descriptions.join('\n\n');
     okButton.click();
   }
+}
+
+function injectScript(path: string) {
+  const script = document.createElement('script');
+  script.src = chrome.runtime.getURL(path);
+  (document.body || document.documentElement).appendChild(script);
 }
