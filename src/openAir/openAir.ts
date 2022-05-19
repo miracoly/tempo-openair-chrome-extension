@@ -7,7 +7,7 @@ dayjs.extend(customParseFormat);
 export const TIMESHEET_URL = /https:\/\/.*\.app\.openair\.com\/timesheet.*uid=.*timesheet_id=\d*/;
 export const TIMESHEET_TITLE = /OpenAir\s:\sTimesheets\s:\s.*/;
 
-export const DATE_RANGE_SELECTOR = '#app_header_title span:nth-child(2)';
+export const DATE_RANGE_SELECTOR = 'body header div.q-col.q-row.items-center span.record-title b';
 export const TABLE_CELLS_SELECTOR =
   '#timesheet_grid table tbody tr:first-child td:nth-child(n+4):not(:last-child)';
 export const DESCRIPTION_POPUP_SELECTOR =
