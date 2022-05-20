@@ -1,11 +1,11 @@
 import { Message, MessageType } from './messages';
 import { LocalStorage } from './background';
 
+document.querySelector('button#fill-timesheet')?.addEventListener('click', fillTimeSheet);
+
 Array.from(document.querySelectorAll('input')).forEach(input =>
   input.addEventListener('blur', updateStorageWith(queryConfigInputs))
 );
-
-document.querySelector('button#fill-timesheet')?.addEventListener('click', fillTimeSheet);
 
 chrome.storage.sync.get(['issueKey', 'tempoApiToken'], (storage: LocalStorage): void => {
   queryConfigInputs()

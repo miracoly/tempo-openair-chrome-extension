@@ -22,6 +22,19 @@ chrome.runtime.onMessage.addListener(
   }
 );
 
+function fillTimesheet(sendResponse: (response: Message) => void) {
+  return (tabs: Tab[]): void => {
+    const activeTab = tabs[0];
+    if (tabContains(TIMESHEET_URL, TIMESHEET_TITLE)(activeTab) && activeTab.id) {
+      const portToContent = chrome.tabs.connect(activeTab.id, { name: BACKEND_CONTENT_PORT_NAME });
+      portToContent.onMessage.addListener(listenToContent(sendResponse));
+      portToContent.postMessage({ type: MessageType.REQUEST_DATE_RANGE } as Message);
+    } else {
+      sendResponse({ type: MessageType.NOT_ON_OPENAIR_TIMESHEET_SITE });
+    }
+  };
+}
+
 function useStorageWith(
   keys: string[],
   callback: (storage: LocalStorage) => void,
@@ -35,19 +48,6 @@ function useStorageWith(
       handleNotFound(nonExistingKeys);
     }
   });
-}
-
-function fillTimesheet(sendResponse: (response: Message) => void) {
-  return (tabs: Tab[]): void => {
-    const activeTab = tabs[0];
-    if (tabContains(TIMESHEET_URL, TIMESHEET_TITLE)(activeTab) && activeTab.id) {
-      const portToContent = chrome.tabs.connect(activeTab.id, { name: BACKEND_CONTENT_PORT_NAME });
-      portToContent.onMessage.addListener(listenToContent(sendResponse));
-      portToContent.postMessage({ type: MessageType.REQUEST_DATE_RANGE } as Message);
-    } else {
-      sendResponse({ type: MessageType.NOT_ON_OPENAIR_TIMESHEET_SITE });
-    }
-  };
 }
 
 function listenToContent(sendResponse: (response: Message) => void) {
