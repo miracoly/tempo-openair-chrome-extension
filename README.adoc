@@ -52,6 +52,7 @@ That's it. Submit your timesheet.
 == For Developers
 === Overview
 * Chrome Extension: https://developer.chrome.com/docs/extensions/reference/[API Reference]
+* Tempo Worklogs: https://apidocs.tempo.io/#worklogs[API Reference]
 
 ==== manifest.json
 Main configuration file for a Chrome extension. Here you define permissions etc.
