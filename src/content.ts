@@ -21,7 +21,11 @@ chrome.runtime.onConnect.addListener(portToBackend => {
       handleRequestDateRange(port);
     }
     if (message.type === MessageType.FILL_IN_REPORT) {
-      handleFillInReport(message, port);
+      const dayReports: DayReport[] = (message.payload as DayReport[]).map(report => ({
+        ...report,
+        day: dayjs(report.day),
+      }));
+      handleFillInReport(dayReports, port);
     }
   });
 });
@@ -35,12 +39,7 @@ function handleRequestDateRange(port: Port) {
   port.postMessage(response);
 }
 
-function handleFillInReport(message: Message, port: Port) {
-  const dayReports: DayReport[] = (message.payload as DayReport[]).map(report => ({
-    ...report,
-    day: dayjs(report.day),
-  }));
-
+function handleFillInReport(dayReports: DayReport[], port: chrome.runtime.Port) {
   const cells: HTMLTableCellElement[] = Array.from(document.querySelectorAll(TABLE_CELLS_SELECTOR));
   const cellsWithDay = cells.map(toTableCellWithDay).filter(cell => cell.day);
 
