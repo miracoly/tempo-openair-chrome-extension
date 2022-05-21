@@ -1,0 +1,17 @@
+:doctype: article
+:doctitle: IntelliJ Http Requests
+
+== Add secrets
+Create `http-client.private.env.json` and add:
+
+[source,json]
+----
+{
+  "dev": {
+    "token": "<YOUR TEMPO API TOKEN>"
+  }
+}
+----
+
+== How to run
+In IntelliJ, open `tempo-worklogs.http` and click the green arrow next to the desired request and choose `Run with 'dev' environment`.

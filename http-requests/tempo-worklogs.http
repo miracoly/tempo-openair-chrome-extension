@@ -1,0 +1,15 @@
+### GET worklogs for one issue key
+# @name getWorklogsOfOneIssueKey
+GET https://api.tempo.io/core/3/worklogs?issue={{issueKeyOne}}&from={{from}}&to={{to}}
+Accept: application/json
+Authorization: Bearer {{token}}
+
+###
+
+### GET worklogs for multiple issue keys
+# @name getWorklogsOfMultipleIssueKeys
+GET https://api.tempo.io/core/3/worklogs?issue={{issueKeyOne}}&issue={{issueKeyTwo}}&from={{from}}&to={{to}}
+Accept: application/json
+Authorization: Bearer {{token}}
+
+###
