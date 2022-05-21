@@ -6,7 +6,7 @@ const BASE_URL = 'https://api.tempo.io/core/3';
 const WORKLOGS_URL = '/worklogs';
 
 export interface WorkLogFilter {
-  issueKey: number;
+  issueKey: string;
   from: Dayjs;
   to: Dayjs;
 }
@@ -51,7 +51,7 @@ export function fetchWorkLogs(
 
 function buildUrlFrom(baseUrl: string, filter: WorkLogFilter): string {
   const params: Record<string, string> = {
-    issue: `TIME-${filter.issueKey}`,
+    issue: filter.issueKey,
     from: filter.from.format('YYYY-MM-DD'),
     to: filter.to.format('YYYY-MM-DD'),
   };

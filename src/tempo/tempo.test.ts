@@ -27,7 +27,7 @@ describe('getWorkLogReportOf', () => {
     const to = dayjs('2022-03-27');
     const week = newDayRange(from, to);
     const filter: WorkLogFilter = {
-      issueKey: 256,
+      issueKey: 'Time-256',
       from,
       to,
     };
