@@ -3,7 +3,7 @@
   "description": "Automatically fill in your Tempo timesheets into OpenAir",
   "version": "1.0.0",
   "manifest_version": 3,
-  "permissions": ["activeTab", "scripting", "storage", "notifications"],
+  "permissions": ["activeTab", "storage", "notifications"],
   "content_scripts": [
     {
       "matches": ["https://*.app.openair.com/*"],
