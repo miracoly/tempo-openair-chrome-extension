@@ -8,7 +8,7 @@
 
 Tempo to Openair copies your tracked Tempo worklogs into your Openair timesheet.
 
-https://github.com/miracoly/tempo-openair-chrome-extension/releases/latest/[image:https://img.shields.io/badge/Chrome_Extension-v1.0.0--alpha.4-blue?style=for-the-badge&logo=google-chrome&logoColor=white[Chrome Extension Tempo to Openair]]
+https://github.com/miracoly/tempo-openair-chrome-extension/releases/latest/[image:https://img.shields.io/badge/Chrome_Webstore-v1.0.0-blue?style=for-the-badge&logo=google-chrome&logoColor=white[Chrome Extension Tempo to Openair]]
 
 * [x] Automatically copy your weekly worklogs from Tempo into your Openair timesheet.
 * [x] Duplicate Tasks per day get accumulated.
@@ -22,12 +22,7 @@ image:doc/screencast.gif[]
 toc::[]
 
 == Install
-1. Download the https://github.com/miracoly/tempo-openair-chrome-extension/releases/latest/[latest Release as zip archive] and extract it.
-2. Go to `chrome://extensions/` in your Chrome browser and enable `Developer mode` in the upper right corner.
-3. Click `Load unpacked` and select the directory of the extracted zip archive.
-
-The extension is now ready to use. To update to a newer release remove the extracted folder and repeat the above steps.
-
+Go to the https://chrome.google.com/webstore/detail/tempo-to-openair/igocbhbihaddpbnpokdjnbpcgbliemai[Chrome Webstore Page] of _Tempo to Openair_ and install it.
 
 == Configure
 If you click on the extension, a popup opens which asks you to provide the *ticket number* and an *api token* for your Tempo account.
@@ -50,6 +45,13 @@ A Tempo ticket has an issue key like `TIME-123`. Here, your ticket number would 
 That's it. Submit your timesheet.
 
 == For Developers
+
+=== Install locally
+1. Clone project.
+2. Build project with `npm run build`. This will create a `/dist` directory.
+3. Go to `chrome://extensions/` in your Chrome browser and enable `Developer mode` in the upper right corner.
+4. Click `Load unpacked` and select the `/dist` directory.
+
 === Overview
 * Chrome Extension: https://developer.chrome.com/docs/extensions/reference/[API Reference]
 * Tempo Worklogs: https://apidocs.tempo.io/#worklogs[API Reference]
